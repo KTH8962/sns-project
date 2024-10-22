@@ -9,9 +9,7 @@ router.get("/", (req, res) => {
             console.error('피드 조회 실패:', err);
             return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
         }
-        //console.log(results);
         return res.json({ success: true, list: results });
-        //res.render('feed', { list : results }); 
     });
 });
 
