@@ -1,0 +1,104 @@
+/** setting **/
+@mixin FLEX($justify: null, $align: null, $direction: null, $wrap: null) {
+    display: flex;
+    @if $justify {
+        justify-content: $justify;
+    }
+    @if $align {
+        align-items: $align;
+    }
+    @if $direction {
+        flex-direction: $direction;
+    }
+    @if $wrap {
+        flex-wrap: $wrap;
+    }
+}
+@mixin GRID($columns) {
+    display: grid;
+    grid-template-columns: $columns;
+}
+@mixin PD-IP1($t, $r, $b, $l) {
+    padding: {
+        top: if(unitless($t), #{$t}px, $t);
+        right: if(unitless($r), #{$r}px, $r);
+        bottom: if(unitless($b), #{$b}px, $b);
+        left: if(unitless($l), #{$l}px, $l);
+    };
+}
+@mixin PD-IP2($tb, $lr) {
+    padding: if(unitless($tb), #{$tb}px, $tb) if(unitless($lr), #{$lr}px, $lr);
+}
+@mixin MG-IP1($t, $r, $b, $l) {
+    margin: {
+        top: if(unitless($t), #{$t}px, $t);
+        right: if(unitless($r), #{$r}px, $r);
+        bottom: if(unitless($b), #{$b}px, $b);
+        left: if(unitless($l), #{$l}px, $l);
+    }
+}
+@mixin MG-IP2($tb, $lr) {
+    margin: if(unitless($tb), #{$tb}px, $tb) if(unitless($lr), #{$lr}px, $lr);
+}
+@mixin MG-AUTO($tb) {
+    margin: if(unitless($tb), #{$tb}px, $tb) auto;
+}
+@mixin WTO($block: false, $line: false) {
+    @if $line {
+        display: -webkit-box!important;
+        -webkit-line-clamp: $line; 
+        -webkit-box-orient: vertical;
+        white-space: normal; 
+    } @else {  
+        white-space: nowrap;
+        @if $block {
+            display: block!important;
+        } 
+    }
+    -o-text-overflow: ellipsis; 
+    text-overflow: ellipsis; 
+    overflow: hidden;
+}
+@mixin POSITION($pos, $t: null, $r: null, $b: null, $l: null) {
+    position: $pos;
+    top: $t; right: $r; bottom: $b; left: $l;
+}
+@mixin FONT($size: null, $weight: null, $color: null, $lineHeight: null, $letterSpacing: null) {
+    @if $size {font-size: if(unitless($size), #{$size}px, $size);}
+    font: {
+        Weight: $weight;
+    }
+    color: $color;
+    line-height: $lineHeight;
+    letter-spacing: $letterSpacing;
+}
+@mixin BG($pos: false, $size: auto, $repeat: no-repeat){
+    @if $pos {
+        background: $pos / $size $repeat;
+    } @else {
+        background-size: $size;
+        background-repeat: $repeat;
+    }
+}
+@mixin BORDER($box, $color, $px: 1, $type: solid) {
+    @if $box == full {border: if(unitless($px), #{$px}px, $px) $type $color;}
+    @else if $box == top {border-top: if(unitless($px), #{$px}px, $px) $type $color;}
+    @else if $box == right {border-right: if(unitless($px), #{$px}px, $px) $type $color;}
+    @else if $box == bottom {border-bottom: if(unitless($px), #{$px}px, $px) $type $color;}
+    @else if $box == left {border-left: if(unitless($px), #{$px}px, $px) $type $color;}
+}
+@mixin BOX-SHADOW($x, $y, $blur, $spread:null, $color: null, $inset:null){
+    box-shadow: if(unitless($x), #{$x}px, $x) if(unitless($y), #{$y}px, $y) if(unitless($blur), #{$blur}px, $blur) $spread $color $inset;
+}
+$url-images:"../images/";
+$url-images-ico:"../images/ico/";
+
+.box-hide {
+    display: none!important;
+}
+/** //setting **/
+
+
+#root {
+    min-height: 100vh;
+}
