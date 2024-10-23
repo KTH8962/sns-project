@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
     host: 'localhost',      
     user: 'root',           
     password: 'test1234',   
-    database: 'sample'     
+    database: 'dailygram'     
 });
 // 연결 확인
 connection.connect((err) => {

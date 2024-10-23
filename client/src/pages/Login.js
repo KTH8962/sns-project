@@ -1,23 +1,44 @@
-import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Input from '../components/Input';
+import Logo from '../components/Logo';
+import axios from 'axios';
 
 function Login(props) {
+    let idRef = useRef();
+    let pwdRef = useRef();
     const navigate = useNavigate();
+
+    const handleLogin = async () => {
+        const id = idRef.current.value;
+        const pwd = pwdRef.current.value;
+        const res = await axios.post(`http://localhost:3100/user`, { id, pwd });
+        if(res.data.success) {
+            localStorage.setItem("token", res.data.token);
+            navigate("/main");
+        } else {
+            alert(res.data.message);
+        }
+    }
+
+    const handleKeyPress = e => {
+        if(e.key === 'Enter') {
+            handleLogin();
+        }
+      }
+
     return (
-        <div className='login-wrap'>
-            <div className='login-box'>
-                <div className='ip-box'>
-                    <input type='text' placeholder='이메일을 입력해주세요' />
-                </div>
-                <div className='ip-box'>
-                    <input type='password' placeholder='비밀번호를 입력해주세요' />
-                </div>
+        <div className='intro-wrap'>
+            <div className='intro-box'>                
+                <Logo />
+                <Input ref={idRef} placeholder='이메일을 입력하세요' />
+                <Input ref={pwdRef} type='password' placeholder='비밀번호를 입력하세요' onKeyPress={handleKeyPress} />
                 <div className='btn-box'>
-                    <button type='button'>로그인</button>
+                    <button type='button' onClick={handleLogin}>로그인</button>
                 </div>
             </div>
             <div className='login-join'>
-                <Link to='/join'>회원가입하기</Link>
+                <span>아이디가 없으신가요?</span><Link to='/join'>회원가입</Link>
             </div>
         </div>
     );

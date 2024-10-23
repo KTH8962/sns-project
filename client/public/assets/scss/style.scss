@@ -1,0 +1,254 @@
+/** setting **/
+@mixin FLEX($justify: null, $align: null, $direction: null, $wrap: null) {
+    display: flex;
+    @if $justify {
+        justify-content: $justify;
+    }
+    @if $align {
+        align-items: $align;
+    }
+    @if $direction {
+        flex-direction: $direction;
+    }
+    @if $wrap {
+        flex-wrap: $wrap;
+    }
+}
+@mixin GRID($columns) {
+    display: grid;
+    grid-template-columns: $columns;
+}
+@mixin PD-IP1($t, $r, $b, $l) {
+    padding: {
+        top: if(unitless($t), #{$t}px, $t);
+        right: if(unitless($r), #{$r}px, $r);
+        bottom: if(unitless($b), #{$b}px, $b);
+        left: if(unitless($l), #{$l}px, $l);
+    };
+}
+@mixin PD-IP2($tb, $lr) {
+    padding: if(unitless($tb), #{$tb}px, $tb) if(unitless($lr), #{$lr}px, $lr);
+}
+@mixin MG-IP1($t, $r, $b, $l) {
+    margin: {
+        top: if(unitless($t), #{$t}px, $t);
+        right: if(unitless($r), #{$r}px, $r);
+        bottom: if(unitless($b), #{$b}px, $b);
+        left: if(unitless($l), #{$l}px, $l);
+    }
+}
+@mixin MG-IP2($tb, $lr) {
+    margin: if(unitless($tb), #{$tb}px, $tb) if(unitless($lr), #{$lr}px, $lr);
+}
+@mixin MG-AUTO($tb) {
+    margin: if(unitless($tb), #{$tb}px, $tb) auto;
+}
+@mixin WTO($block: false, $line: false) {
+    @if $line {
+        display: -webkit-box!important;
+        -webkit-line-clamp: $line; 
+        -webkit-box-orient: vertical;
+        white-space: normal; 
+    } @else {  
+        white-space: nowrap;
+        @if $block {
+            display: block!important;
+        } 
+    }
+    -o-text-overflow: ellipsis; 
+    text-overflow: ellipsis; 
+    overflow: hidden;
+}
+@mixin POSITION($pos, $t: null, $r: null, $b: null, $l: null) {
+    position: $pos;
+    top: $t; right: $r; bottom: $b; left: $l;
+}
+@mixin FONT($size: null, $weight: null, $color: null, $lineHeight: null, $letterSpacing: null) {
+    @if $size {font-size: if(unitless($size), #{$size}px, $size);}
+    font: {
+        Weight: $weight;
+    }
+    color: $color;
+    line-height: $lineHeight;
+    letter-spacing: $letterSpacing;
+}
+@mixin BG($pos: false, $size: auto, $repeat: no-repeat){
+    @if $pos {
+        background: $pos / $size $repeat;
+    } @else {
+        background-size: $size;
+        background-repeat: $repeat;
+    }
+}
+@mixin BORDER($box, $color, $px: 1, $type: solid) {
+    @if $box == full {border: if(unitless($px), #{$px}px, $px) $type $color;}
+    @else if $box == top {border-top: if(unitless($px), #{$px}px, $px) $type $color;}
+    @else if $box == right {border-right: if(unitless($px), #{$px}px, $px) $type $color;}
+    @else if $box == bottom {border-bottom: if(unitless($px), #{$px}px, $px) $type $color;}
+    @else if $box == left {border-left: if(unitless($px), #{$px}px, $px) $type $color;}
+}
+@mixin BOX-SHADOW($x, $y, $blur, $spread:null, $color: null, $inset:null){
+    box-shadow: if(unitless($x), #{$x}px, $x) if(unitless($y), #{$y}px, $y) if(unitless($blur), #{$blur}px, $blur) $spread $color $inset;
+}
+$url-images:"../images/";
+$url-images-ico:"../images/ico/";
+
+.box-hide {
+    display: none!important;
+}
+
+
+/** //setting **/
+
+
+#root {
+    color: var(--color-contrasty2); line-height: 1; font-family: var(--base-font);
+    min-height: 100vh; height: 100%;
+}
+
+.intro-wrap {
+    @include FLEX(center, center, column);
+    height: 100vh;
+    .intro-box {
+        @include FLEX(null, center, column);
+        @include BORDER(full, var(--color-contrastyC8));
+        @include PD-IP2(40, 35);
+        @include MG-IP1(0, 0, 20, 0);
+        @include POSITION(relative);
+        width: 340px; height: 400px; background-color: var(--base-white);
+        .logo {
+            @include MG-IP1(0, 0, 40, 0);
+        }
+        .ip-box {
+            + .ip-box {
+                @include MG-IP1(10, 0, 0, 0);
+            }
+        }
+        .btn-box {
+            @include FLEX(null, flex-end);
+            width: 100%; flex: 1;
+            button {
+                @include FONT(13, 500, var(--base-white));
+                background-color: var(--color-skyblue);
+                width: 100%; height: 36px; border-radius: 4px;
+            }
+        }
+        &::after, &::before {
+            @include BORDER(full, var(--color-contrastyC8));
+            @include POSITION(absolute); background-color: var(--base-white);
+            width: 100%; height: 100%; content: ''; z-index: -1;
+        }
+        &::before {
+            @include BOX-SHADOW(3, 3, 10, null, rgba(0, 0, 0, 0.15));
+            top: 7px; left: 7px;
+        }
+        &::after {
+            top: 3px; left: 3px;
+        }
+        &.join {
+            left: 170px;
+            .logo {
+                @include POSITION(absolute, 50%, null, null, -100%);
+                @include MG-IP1(-19px, 0, 0, 85px);
+            }
+            &::before {
+                top: 3px; left: 3px;
+            }
+            &::after {
+                top: -1px; left: -100%;
+            }
+        }
+    }
+    .login-join {
+        @include FLEX(center, center);
+        @include FONT(14, 500);
+        @include BORDER(full, var(--color-contrastyC8));
+        width: 340px; height: 46px;
+        a {
+            @include FONT(null, null, var(--color-blue));
+            @include MG-IP1(0, 0, 0, 5);
+        }
+    }
+}
+/** defalt-setting **/
+.ip-box {
+    width: 100%;
+    input[type="text"], input[type="password"], input[type="date"], input[type="datetime-local"] {
+        @include FONT(14, 500);
+        @include PD-IP2(0, 10);
+        @include BORDER(full, var(--color-contrastyC));
+        height: 40px; width: 100%; background: var(--base-white);
+        border-radius: 4px; font-family: 'RubikNoto';
+        &::placeholder {
+            @include FONT(null, null, var(--color-contrastyA));
+        }
+        &:disabled {
+            background-color: var(--color-contrastyF5);
+        }
+    }
+    &.ip-ico-box {
+        @include POSITION(relative);
+        .btn-box {
+            &.type1 {
+                @include POSITION(absolute, 50%, 16px, null, null);
+                @include MG-IP1(-10, 0, 0, 0);
+                width: 20px; height: 20px;
+                button {
+                    @include BG(center);
+                    background-image: url($url-images-ico + "ico_search.png");
+                    font-size: 0; vertical-align: top;
+                    width: 100%; height: 100%;
+                }
+                &.ico-big {
+                    @include MG-IP1(-12, 0, 0, 0);
+                    width: 24px; height: 24px;
+                    button {
+                        background-image: url($url-images-ico + "ico_search2.png");
+                    }
+                }
+                &.ico-small {
+                    @include MG-IP1(-8, 0, 0, 0);
+                    width: 16px; height: 16px;
+                    button {
+                        background-image: url($url-images-ico + "ico_search3.png");
+                    }
+                }
+            }
+            &.type2 {
+                @include POSITION(absolute, 3px, 3px, null, null);
+                button {
+                    @include FONT(12, 800);
+                    @include BORDER(full, var(--color-contrastyE5));
+                    background-color: var(--color-contrastyF5);
+                    width: 60px; height: 34px; border-radius: 4px;
+                    &:hover {
+                        @include FONT(null, null, var(--base-white));
+                        transition: all .2s;
+                        border-color: var(--color-contrasty2);
+                        background-color: var(--color-contrasty2);
+                    }
+                }
+            }
+        }
+        input {
+            @include PD-IP1(0, 44, 0, 16);
+        } 
+        &.type2 {
+            input {
+                @include PD-IP1(0, 76, 0, 16);
+            }
+        }
+    }
+    &.ip-txt-box {
+        @include POSITION(relative);
+        .txt {
+            @include POSITION(absolute, 50%, 16px, null, null);
+            @include FONT(14, 700, var(--color-contrastyC));
+            @include MG-IP1(-6, 0, 0, 0);
+        }
+        input {
+            @include PD-IP1(0, 40, 0, 16);
+        } 
+    }
+}
+/** //defalt-setting **/

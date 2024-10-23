@@ -1,0 +1,239 @@
+/** setting **/
+.box-hide {
+  display: none !important;
+}
+
+/** //setting **/
+#root {
+  color: var(--color-contrasty2);
+  line-height: 1;
+  font-family: var(--base-font);
+  min-height: 100vh;
+  height: 100%;
+}
+
+.intro-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+.intro-wrap .intro-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid var(--color-contrastyC8);
+  padding: 40px 35px;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 20px;
+  margin-left: 0px;
+  position: relative;
+  width: 340px;
+  height: 400px;
+  background-color: var(--base-white);
+}
+.intro-wrap .intro-box .logo {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 40px;
+  margin-left: 0px;
+}
+.intro-wrap .intro-box .ip-box + .ip-box {
+  margin-top: 10px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+.intro-wrap .intro-box .btn-box {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  flex: 1;
+}
+.intro-wrap .intro-box .btn-box button {
+  font-size: 13px;
+  font-Weight: 500;
+  color: var(--base-white);
+  background-color: var(--color-skyblue);
+  width: 100%;
+  height: 36px;
+  border-radius: 4px;
+}
+.intro-wrap .intro-box::after, .intro-wrap .intro-box::before {
+  border: 1px solid var(--color-contrastyC8);
+  position: absolute;
+  background-color: var(--base-white);
+  width: 100%;
+  height: 100%;
+  content: "";
+  z-index: -1;
+}
+.intro-wrap .intro-box::before {
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.15);
+  top: 7px;
+  left: 7px;
+}
+.intro-wrap .intro-box::after {
+  top: 3px;
+  left: 3px;
+}
+.intro-wrap .intro-box.join {
+  left: 170px;
+}
+.intro-wrap .intro-box.join .logo {
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  margin-top: -19px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 85px;
+}
+.intro-wrap .intro-box.join::before {
+  top: 3px;
+  left: 3px;
+}
+.intro-wrap .intro-box.join::after {
+  top: -1px;
+  left: -100%;
+}
+.intro-wrap .login-join {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-Weight: 500;
+  border: 1px solid var(--color-contrastyC8);
+  width: 340px;
+  height: 46px;
+}
+.intro-wrap .login-join a {
+  color: var(--color-blue);
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 5px;
+}
+
+/** defalt-setting **/
+.ip-box {
+  width: 100%;
+}
+.ip-box input[type=text], .ip-box input[type=password], .ip-box input[type=date], .ip-box input[type=datetime-local] {
+  font-size: 14px;
+  font-Weight: 500;
+  padding: 0px 10px;
+  border: 1px solid var(--color-contrastyC);
+  height: 40px;
+  width: 100%;
+  background: var(--base-white);
+  border-radius: 4px;
+  font-family: "RubikNoto";
+}
+.ip-box input[type=text]::placeholder, .ip-box input[type=password]::placeholder, .ip-box input[type=date]::placeholder, .ip-box input[type=datetime-local]::placeholder {
+  color: var(--color-contrastyA);
+}
+.ip-box input[type=text]:disabled, .ip-box input[type=password]:disabled, .ip-box input[type=date]:disabled, .ip-box input[type=datetime-local]:disabled {
+  background-color: var(--color-contrastyF5);
+}
+.ip-box.ip-ico-box {
+  position: relative;
+}
+.ip-box.ip-ico-box .btn-box.type1 {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  margin-top: -10px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  width: 20px;
+  height: 20px;
+}
+.ip-box.ip-ico-box .btn-box.type1 button {
+  background: center/auto no-repeat;
+  background-image: url("../images/ico/ico_search.png");
+  font-size: 0;
+  vertical-align: top;
+  width: 100%;
+  height: 100%;
+}
+.ip-box.ip-ico-box .btn-box.type1.ico-big {
+  margin-top: -12px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  width: 24px;
+  height: 24px;
+}
+.ip-box.ip-ico-box .btn-box.type1.ico-big button {
+  background-image: url("../images/ico/ico_search2.png");
+}
+.ip-box.ip-ico-box .btn-box.type1.ico-small {
+  margin-top: -8px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  width: 16px;
+  height: 16px;
+}
+.ip-box.ip-ico-box .btn-box.type1.ico-small button {
+  background-image: url("../images/ico/ico_search3.png");
+}
+.ip-box.ip-ico-box .btn-box.type2 {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+}
+.ip-box.ip-ico-box .btn-box.type2 button {
+  font-size: 12px;
+  font-Weight: 800;
+  border: 1px solid var(--color-contrastyE5);
+  background-color: var(--color-contrastyF5);
+  width: 60px;
+  height: 34px;
+  border-radius: 4px;
+}
+.ip-box.ip-ico-box .btn-box.type2 button:hover {
+  color: var(--base-white);
+  transition: all 0.2s;
+  border-color: var(--color-contrasty2);
+  background-color: var(--color-contrasty2);
+}
+.ip-box.ip-ico-box input {
+  padding-top: 0px;
+  padding-right: 44px;
+  padding-bottom: 0px;
+  padding-left: 16px;
+}
+.ip-box.ip-ico-box.type2 input {
+  padding-top: 0px;
+  padding-right: 76px;
+  padding-bottom: 0px;
+  padding-left: 16px;
+}
+.ip-box.ip-txt-box {
+  position: relative;
+}
+.ip-box.ip-txt-box .txt {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  font-size: 14px;
+  font-Weight: 700;
+  color: var(--color-contrastyC);
+  margin-top: -6px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+.ip-box.ip-txt-box input {
+  padding-top: 0px;
+  padding-right: 40px;
+  padding-bottom: 0px;
+  padding-left: 16px;
+}
+
+/** //defalt-setting **/

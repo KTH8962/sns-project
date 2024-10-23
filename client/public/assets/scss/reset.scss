@@ -12,7 +12,7 @@ a{text-decoration:none; color:inherit; display: block;}
 a:hover {text-decoration:none;}
 sup {vertical-align: super; font-size:smaller;}
 sub {vertical-align: sub;}
-img {vertical-align: top; width: 100%; border: 0; image-rendering: -moz-crisp-edges; /* Firefox */ image-rendering: -o-crisp-edges; /* Opera */ image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */ image-rendering: crisp-edges;}
+img {vertical-align: top; border: 0; image-rendering: -moz-crisp-edges; /* Firefox */ image-rendering: -o-crisp-edges; /* Opera */ image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */ image-rendering: crisp-edges;}
 .blind {position: absolute; top: -9999999px; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; border: 0; clip: rect(0, 0, 0, 0); white-space: nowrap;}
 .underline {text-decoration: underline!important; text-underline-offset: 2px;}
 :focus {outline: none;}
@@ -32,6 +32,7 @@ input {font-size: inherit; color: inherit; appearance: none; -moz-appearance: no
 .fixed {overflow: hidden!important;}
 input[type='radio'],input[type='checkbox'] {-webkit-appearance: none; appearance: none; margin: 0; width: 0; height: 0; position: absolute;}
 button {border: 0; font-size: inherit; background-color: transparent; line-height: inherit; cursor: pointer; padding: 0; color: inherit; font-family: inherit; font-weight: inherit; -webkit-tap-highlight-color: transparent;}
+button:disabled {background-color: var(--color-contrasty9E)!important;}
 label {cursor: pointer;}
 
 :root {
@@ -58,9 +59,9 @@ label {cursor: pointer;}
     --color-red: #FF334B;
     --color-red2: #FF5C6F;
     --color-blue: #4F7EFF;
+    --color-skyblue: #67B2E7;
     --color-green: #06C755;
     --btn-blue: #1E51A4;
-    --btn-skyblue: #67B2E7;
     --btn-gray: #AAAAAA;
     --btn-gray2: #BDBDBD;
     --btn-gray3: #666666;

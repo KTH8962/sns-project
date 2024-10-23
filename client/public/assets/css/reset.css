@@ -65,7 +65,6 @@ sub {
 
 img {
   vertical-align: top;
-  width: 100%;
   border: 0;
   image-rendering: -moz-crisp-edges; /* Firefox */
   image-rendering: -o-crisp-edges; /* Opera */
@@ -187,6 +186,10 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
+button:disabled {
+  background-color: var(--color-contrasty9E) !important;
+}
+
 label {
   cursor: pointer;
 }
@@ -215,9 +218,9 @@ label {
   --color-red: #FF334B;
   --color-red2: #FF5C6F;
   --color-blue: #4F7EFF;
+  --color-skyblue: #67B2E7;
   --color-green: #06C755;
   --btn-blue: #1E51A4;
-  --btn-skyblue: #67B2E7;
   --btn-gray: #AAAAAA;
   --btn-gray2: #BDBDBD;
   --btn-gray3: #666666;

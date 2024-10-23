@@ -1,11 +1,11 @@
 import React from 'react';
 
-function Menu(props) {
+function Main(props) {
     return (
         <div>
-            
+            메인이다.
         </div>
     );
 }
 
-export default Menu;
+export default Main;

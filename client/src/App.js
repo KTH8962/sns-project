@@ -1,17 +1,12 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import Login from './pages/Login';
-import Join from './pages/Join';
+import { BrowserRouter as Router } from 'react-router-dom';
+import React from 'react';
+import RouterPage from './pages/RouterPage';
+
 
 function App() {
-
-
   return (
     <Router>
-      <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/join' element={<Join />} />
-      </Routes>
+      <RouterPage />
     </Router>
   );
 }
