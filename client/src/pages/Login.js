@@ -21,7 +21,7 @@ function Login(props) {
         }
     }
 
-    const handleKeyPress = e => {
+    const handleKeyPress = (e) => {
         if(e.key === 'Enter') {
             handleLogin();
         }
@@ -32,7 +32,7 @@ function Login(props) {
             <div className='intro-box'>                
                 <Logo />
                 <Input ref={idRef} placeholder='이메일을 입력하세요' />
-                <Input ref={pwdRef} type='password' placeholder='비밀번호를 입력하세요' onKeyPress={handleKeyPress} />
+                <Input ref={pwdRef} type='password' placeholder='비밀번호를 입력하세요' keyDown={(e) => {handleKeyPress(e)}} />
                 <div className='btn-box'>
                     <button type='button' onClick={handleLogin}>로그인</button>
                 </div>

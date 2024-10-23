@@ -10,20 +10,17 @@ const JWT_KEY = "asdasd123asdasd123";
 router.route("/")
     .post((req, res) => {
         const { id, pwd } = req.body;
-        //console.log(id, pwd);
         const query = `SELECT * FROM TBL_USER WHERE userId = ?`;
         connection.query(query, [id], async (err, results) => {
             if(err) {
                 console.error('피드 조회 실패:', err);
                 return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
             }
-            console.log(results[0]);
             if(results[0] == undefined) {
                 return res.json({ success: false, message: '이메일을 확인해 주세요.' });
             } else {
                 const dbPwd = results[0].userPwd;
                 const pwdDecode = await bcrypt.compare(pwd, dbPwd);
-                console.log(pwdDecode);
                 if(pwdDecode) {
                     const user = results[0];
                     const token = jwt.sign({userId: user.userId, userName: user.userName}, JWT_KEY, {expiresIn : '1h'});

@@ -11,6 +11,9 @@
   min-height: 100vh;
   height: 100%;
 }
+#root.main {
+  display: flex;
+}
 
 .intro-wrap {
   display: flex;
@@ -115,6 +118,64 @@
   margin-right: 0px;
   margin-bottom: 0px;
   margin-left: 5px;
+}
+
+header {
+  border-right: 1px solid var(--color-contrastyE5);
+  padding: 40px 20px;
+  width: 280px;
+}
+header .h-logo {
+  padding: 0px 15px;
+}
+header .h-logo a {
+  font-size: 0px;
+  background: center/auto no-repeat;
+  width: 169px;
+  height: 38px;
+  background-image: url("../images/logo.png");
+}
+header .gnb-nav {
+  margin-top: 40px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+header .gnb-nav ul li a, header .gnb-nav ul li button {
+  display: flex;
+  align-items: center;
+  font-size: 17px;
+  font-Weight: 400;
+  padding-top: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+  padding-left: 10px;
+  height: 50px;
+  border-radius: 4px;
+  width: 100%;
+  transition: all 0.3s;
+}
+header .gnb-nav ul li a:hover, header .gnb-nav ul li button:hover {
+  background-color: var(--color-contrastyF0);
+}
+header .gnb-nav ul li a svg, header .gnb-nav ul li button svg {
+  margin-top: 0px;
+  margin-right: 15px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  width: 28px;
+  height: 28px;
+  fill: var(--color-contrasty3);
+}
+header .gnb-nav ul li + li {
+  margin-top: 10px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+
+main {
+  width: calc(100% - 280px);
 }
 
 /** defalt-setting **/
