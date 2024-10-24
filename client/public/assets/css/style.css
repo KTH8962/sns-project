@@ -13,6 +13,7 @@
 }
 #root.main {
   display: flex;
+  justify-content: space-between;
 }
 
 .intro-wrap {
@@ -121,9 +122,14 @@
 }
 
 header {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
   border-right: 1px solid var(--color-contrastyE5);
   padding: 40px 20px;
   width: 280px;
+  max-height: 100vh;
 }
 header .h-logo {
   padding: 0px 15px;
@@ -140,6 +146,10 @@ header .gnb-nav {
   margin-right: 0px;
   margin-bottom: 0px;
   margin-left: 0px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  flex: 1;
 }
 header .gnb-nav ul li a, header .gnb-nav ul li button {
   display: flex;
@@ -176,6 +186,23 @@ header .gnb-nav ul li + li {
 
 main {
   width: calc(100% - 280px);
+}
+
+.main-container {
+  padding: 40px 20px;
+  min-height: 900px;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+footer p {
+  font-size: 14px;
+  font-Weight: 400;
+  color: var(--color-contrastyC);
 }
 
 /** defalt-setting **/
@@ -298,3 +325,73 @@ main {
 }
 
 /** //defalt-setting **/
+/** popup-box **/
+.popup-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+}
+.popup-box .popup-cont {
+  background-color: var(--base-white);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.popup-box .popup-cont.add {
+  padding-top: 30px;
+  padding-right: 35px;
+  padding-bottom: 35px;
+  padding-left: 35px;
+  width: 800px;
+}
+.popup-box .popup-tit {
+  font-size: 32px;
+  font-Weight: 500;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 25px;
+  margin-left: 0px;
+}
+.popup-box .popup-btn-box {
+  display: flex;
+  margin-top: 20px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  gap: 0 15px;
+}
+.popup-box .popup-btn-box button {
+  font-size: 14px;
+  font-Weight: 500;
+  color: var(--base-white);
+  flex: 0 1 100%;
+  background-color: var(--color-contrastyC);
+  height: 40px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.popup-box .popup-btn-box button:hover {
+  background-color: var(--color-contrasty2);
+}
+.popup-box .popup-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  fill: var(--base-white);
+}
+.popup-box .dimmed {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: -1;
+}
+
+/** //popup-box **/

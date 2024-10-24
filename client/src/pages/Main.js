@@ -1,5 +1,6 @@
 import React from 'react';
 import Footer from '../components/Footer';
+import PopupAdd from '../components/PopupAdd';
 
 function Main(props) {
     return (
@@ -7,6 +8,7 @@ function Main(props) {
             <div className='main-container'>
                 메인이다.
             </div>
+            <PopupAdd></PopupAdd>
             <Footer></Footer>
         </main>
     );
