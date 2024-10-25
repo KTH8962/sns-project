@@ -4,46 +4,60 @@ import FileInput from './FileInput';
 function PopupAdd(props) {
     const [files, setFiles] = useState([]);
     const [imgs, setImgs] = useState();
+    const fileRef = useRef();
+
+      // 파일 추가 시 상태 업데이트
     const handleChangeFile = (e) => {
-        let fileList;
-        console.log(e.type);
-        if(e.type === "change") {
-            fileList = Array.from(e.target.files);
-        } else {
-            fileList = files;
+        const newFiles = Array.from(e.target.files);
+        const typeCheck = newFiles.filter((item) => {
+            let type = item.type.includes('image');
+            //console.log(typeCheck, typeCheck == false);
+            return type;
+        });
+        if(typeCheck.length > 0 && newFiles.length == typeCheck.length) {
+            setFiles((prev) => [...prev, ...newFiles]);
+        } else if(typeCheck.length == 0 || newFiles.length != typeCheck.length) {
+            alert('이미지 파일만 업로드 가능합니다.');
         }
-        for(let file of fileList) {
-            setFiles((prev) => {
-                //console.log(file);
-                return [file];
-            });
-        }
-        //console.log(fileList)
-        //console.log(files, e.target.files);
-        let imgList = [];
-        for(let i = 0; i < fileList.length; i++) {
-            const reader = new FileReader();
-            reader.readAsDataURL(fileList[i]);
-            reader.onload = async () => {
-                const imgObject = {
-                    src: reader.result,  // 이미지 데이터
-                    name: fileList[i].name // 파일 이름
+    };
+
+    // 파일 객체를 이미지로 변환
+    const handleImgFile = (fileList) => {
+        const imgPromises = fileList.map(file => {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    resolve({
+                        src: reader.result,  // 이미지 데이터
+                        name: file.name      // 파일 이름
+                    });
                 };
-                imgList.push(imgObject);
-                //imgList.push(reader.result, fileList[i].name);
-                setImgs(imgList);
-            };
-        }
-    }
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // 모든 파일이 처리된 후 상태 업데이트
+        Promise.all(imgPromises).then((imgList) => {
+            setImgs(imgList);
+        });
+    };
+
+    // 파일 제거
     const handleRemoveFile = (name) => {
-        let removeFile = files.filter((file) => file.name != name);
-        setFiles(removeFile);
-        handleChangeFile(removeFile);
+        const updatedFiles = files.filter(file => file.name !== name);
+        setFiles(updatedFiles);
+    };
+
+    // 파일첨부하기
+    const handleButtonClick = () => {
+        fileRef.current.click();
     }
-    const test = () => {
-        console.log(files);
-    }
-    
+
+    // 파일 목록이 변경될 때 이미지 목록을 업데이트
+    useEffect(() => {
+        handleImgFile(files);
+    }, [files]);
+
     return (
         <div className='popup-box'>
             <button type='button' className='popup-close-btn'>
@@ -51,21 +65,27 @@ function PopupAdd(props) {
             </button>
             <div className='dimmed'>팝업배경</div>
             <div className='popup-cont add'>
-                <button onClick={test}>테스트</button>
-                <ul>
-                    {imgs && Array.from(imgs).map((item, index) => (
-                        <li key={index}>
-                            <img src={item.src} />
-                            <button type='button' onClick={() => handleRemoveFile(item.name)}>삭제</button>
-                        </li>
-                    ))}                    
-                </ul>
                 <div className='popup-img-wrap'>
-                    <FileInput 
-                        accept="image/jpg, image/jpeg, image/png" 
-                        multiple="multiple" 
-                        onChange={(e) => {handleChangeFile(e)}}
-                    />
+                    <div className='popup-img-box'>
+                        <ul>
+                            {imgs && Array.from(imgs).map((item, index) => (
+                                <li key={index}>
+                                    <img src={item.src} />
+                                    <button type='button' onClick={() => handleRemoveFile(item.name)}>삭제</button>
+                                </li>
+                            ))}                    
+                        </ul>
+                        <button type='button' className='fileUpload-btn' onClick={handleButtonClick}>파일첨부</button>
+                        <FileInput 
+                            ref={fileRef}
+                            accept="image/jpg, image/jpeg, image/png" 
+                            multiple="multiple" 
+                            onChange={(e) => {handleChangeFile(e)}}
+                        />
+                    </div>
+                    <div className='popup-ip-wrap'>
+                        
+                    </div>
                 </div>
             </div>
         </div>

@@ -68,5 +68,4 @@ router.route("/join")
             });
         });
     });
-
 module.exports = router;

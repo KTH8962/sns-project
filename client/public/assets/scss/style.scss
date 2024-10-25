@@ -100,7 +100,6 @@ $url-images-ico:"../images/ico/";
 
 /** //setting **/
 
-
 #root {
     color: var(--color-contrasty2); line-height: 1; font-family: var(--base-font);
     min-height: 100vh; height: 100%;
@@ -320,6 +319,7 @@ footer {
 .popup-box {
     @include FLEX(center, center);
     @include POSITION(fixed, 0, 0, 0, 0);
+    @include PD-IP2(20, 20);
     z-index: 50;
     .popup-cont {
         background-color: var(--base-white); border-radius: 10px; overflow: hidden; 
@@ -347,11 +347,17 @@ footer {
     }
     .popup-close-btn {
         @include POSITION(absolute, 20px, 20px);
+        @include FONT(0);
         fill: var(--base-white);
     }
     .dimmed {
         @include POSITION(absolute, 0, 0, 0, 0);
+        @include FONT(0);
         background-color: rgba(0, 0, 0, 0.7); z-index: -1;
     }
+}
+
+.fileUpload-btn {
+    
 }
 /** //popup-box **/

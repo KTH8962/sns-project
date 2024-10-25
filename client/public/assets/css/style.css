@@ -335,6 +335,7 @@ footer p {
   right: 0;
   bottom: 0;
   left: 0;
+  padding: 20px 20px;
   z-index: 50;
 }
 .popup-box .popup-cont {
@@ -382,6 +383,7 @@ footer p {
   position: absolute;
   top: 20px;
   right: 20px;
+  font-size: 0px;
   fill: var(--base-white);
 }
 .popup-box .dimmed {
@@ -390,6 +392,7 @@ footer p {
   right: 0;
   bottom: 0;
   left: 0;
+  font-size: 0px;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: -1;
 }

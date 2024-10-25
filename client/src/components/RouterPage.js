@@ -1,10 +1,10 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Login from './Login';
-import Join from './Join';
-import NotPage from './NotPage';
-import Main from './Main';
-import Header from '../components/Header';
+import Login from '../pages/Login';
+import Join from '../pages/Join';
+import NotPage from '../pages/NotPage';
+import Main from '../pages/Main';
+import Header from './Header';
 
 function RouterPage(props) {
     const location = useLocation();
