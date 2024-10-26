@@ -477,6 +477,23 @@ footer p {
 .popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-list li.no-list {
   background-color: var(--base-white);
 }
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-list li.no-list span {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 14px;
+  font-Weight: 500;
+  color: var(--color-contrastyA);
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-list li.no-list span svg {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  width: 40px;
+  height: 40px;
+  fill: var(--color-contrastyA);
+}
 .popup-box .popup-board-wrap .popup-img-wrap .img-wrap .arrow-wrap {
   position: absolute;
   top: 50%;

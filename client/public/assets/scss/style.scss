@@ -403,6 +403,14 @@ footer {
                         }
                         &.no-list {
                             background-color: var(--base-white);
+                            span {
+                                @include FLEX(null, center, column);
+                                @include FONT(14, 500, var(--color-contrastyA));
+                                svg {
+                                    @include MG-IP1(0, 0, 10, 0);
+                                    width: 40px; height: 40px; fill: var(--color-contrastyA);
+                                }
+                            }
                         }
                     }
                 }
