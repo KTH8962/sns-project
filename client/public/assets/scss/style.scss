@@ -312,6 +312,34 @@ footer {
         } 
     }
 }
+
+.textbox-box {
+    width: 100%; height: 100%;
+    textarea {
+        @include FONT(14, 500, null, 1.5);
+        @include PD-IP2(10, 10);
+        @include BORDER(full, var(--color-contrastyC));
+        width: 100%; height: 100%; resize: none;
+        border-radius: 4px; font-family: 'RubikNoto';
+    }
+}
+
+.ip-list {
+    .tit-box {
+        @include FLEX(space-between, center);
+        width: 100%;
+        .tit {
+            @include FONT(14, 500, var(--color-contrastyA));
+        }
+    }
+    .bot-box {
+        @include MG-IP1(12, 0, 0, 0);
+        width: 100%;
+    }
+    & + .ip-list {
+        @include MG-IP1(20, 0, 0, 0);
+    }
+}
 /** //defalt-setting **/
 
 
@@ -325,7 +353,7 @@ footer {
         background-color: var(--base-white); border-radius: 10px; overflow: hidden; 
         &.add {
             @include PD-IP1(30, 35, 35, 35);     
-            width: 800px;
+            width: 100%; max-width: 1000px;
         }
     }
     .popup-tit {
@@ -345,10 +373,79 @@ footer {
             }
         }
     }
+    .popup-board-wrap {
+        @include FLEX(space-between);
+        gap: 0 20px;
+        .popup-img-wrap {
+            width: 600px;
+            .img-wrap {
+                @include POSITION(relative);
+                .img-list {
+                    width: 100%; height: 520px; overflow: hidden;
+                    li {
+                        @include FLEX(center, center);
+                        @include POSITION(relative);
+                        @include PD-IP2(10, 10);
+                        width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7);
+                        .img-box {
+                            @include FLEX(center, center);
+                            @include POSITION(absolute, 10px, 10px, 10px, 10px);
+                        }
+                        img {
+                            max-width: 100%; max-height: 100%;
+                        }
+                        .remove-btn {
+                            @include POSITION(absolute, 6px, 6px);
+                            @include BG(center, 18px auto);
+                            @include FONT(0);
+                            width: 28px; height: 28px; background-color: var(--color-contrasty2);
+                            border-radius: 100%; background-image: url($url-images-ico + "ico_pop_close.png");
+                        }
+                        &.no-list {
+                            background-color: var(--base-white);
+                        }
+                    }
+                }
+                .arrow-wrap {
+                    @include POSITION(absolute, 50%);
+                    @include MG-IP1(-18, 0, 0, 0);
+                    width: 100%;
+                    .arrow {
+                        @include POSITION(absolute, 0);
+                        @include BG(center, auto 14px);
+                        @include FONT(0);
+                        width: 36px; height: 36px; background-color: rgba(0, 0, 0, 0.8); border-radius: 100%;
+                        &.prev {
+                            background-image: url($url-images-ico + "ico_prev.png");
+                            left: 16px;
+                        }
+                        &.next {
+                            background-image: url($url-images-ico + "ico_next.png");
+                            right: 16px;
+                        }
+                    }
+                }
+                .img-index-wrap {
+                    @include POSITION(absolute, null, null, 15px, 50%);
+                    @include FONT(14, 500, var(--base-white));
+                    @include PD-IP2(5, 10);
+                    transform: translateX(-50%); background-color: rgba(0, 0, 0, 0.8);
+                    border-radius: 10px;
+                    .total {
+                        @include FONT(null, null, var(--color-contrastyC));
+                    }
+                }
+            }
+        }
+        .popup-ip-wrap {
+            @include FLEX(null, null, column);
+            width: 380px; min-width: 100px;
+        }
+    }
     .popup-close-btn {
         @include POSITION(absolute, 20px, 20px);
         @include FONT(0);
-        fill: var(--base-white);
+        fill: var(--base-white); width: 30px; height: 30px;
     }
     .dimmed {
         @include POSITION(absolute, 0, 0, 0, 0);
@@ -358,6 +455,10 @@ footer {
 }
 
 .fileUpload-btn {
-    
+    @include FLEX(center, center);
+    @include FONT(13, 500, var(--base-white));
+    @include MG-IP1(15, 0, 0, 0);
+    width: 100px; height: 36px; border-radius: 4px;
+    background-color: var(--color-blue);
 }
 /** //popup-box **/

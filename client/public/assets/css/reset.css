@@ -198,6 +198,10 @@ label {
   cursor: pointer;
 }
 
+input, textarea {
+  box-sizing: border-box;
+}
+
 :root {
   --base-font: "Rubik", "NotoSansKR", sans-serif;
   --RubikNoto-font: "RubikNoto", sans-serif;
@@ -262,3 +266,14 @@ label {
 }
 
 /*** //white-space + text-overflow ***/
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}

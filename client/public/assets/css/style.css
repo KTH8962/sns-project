@@ -324,6 +324,48 @@ footer p {
   padding-left: 16px;
 }
 
+.textbox-box {
+  width: 100%;
+  height: 100%;
+}
+.textbox-box textarea {
+  font-size: 14px;
+  font-Weight: 500;
+  line-height: 1.5;
+  padding: 10px 10px;
+  border: 1px solid var(--color-contrastyC);
+  width: 100%;
+  height: 100%;
+  resize: none;
+  border-radius: 4px;
+  font-family: "RubikNoto";
+}
+
+.ip-list .tit-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.ip-list .tit-box .tit {
+  font-size: 14px;
+  font-Weight: 500;
+  color: var(--color-contrastyA);
+}
+.ip-list .bot-box {
+  margin-top: 12px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  width: 100%;
+}
+.ip-list + .ip-list {
+  margin-top: 20px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
+
 /** //defalt-setting **/
 /** popup-box **/
 .popup-box {
@@ -348,7 +390,8 @@ footer p {
   padding-right: 35px;
   padding-bottom: 35px;
   padding-left: 35px;
-  width: 800px;
+  width: 100%;
+  max-width: 1000px;
 }
 .popup-box .popup-tit {
   font-size: 32px;
@@ -379,12 +422,117 @@ footer p {
 .popup-box .popup-btn-box button:hover {
   background-color: var(--color-contrasty2);
 }
+.popup-box .popup-board-wrap {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 20px;
+}
+.popup-box .popup-board-wrap .popup-img-wrap {
+  width: 600px;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap {
+  position: relative;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-list {
+  width: 100%;
+  height: 520px;
+  overflow: hidden;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-list li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 10px 10px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-list li .img-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  bottom: 10px;
+  left: 10px;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-list li img {
+  max-width: 100%;
+  max-height: 100%;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-list li .remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: center/18px auto no-repeat;
+  font-size: 0px;
+  width: 28px;
+  height: 28px;
+  background-color: var(--color-contrasty2);
+  border-radius: 100%;
+  background-image: url("../images/ico/ico_pop_close.png");
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-list li.no-list {
+  background-color: var(--base-white);
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .arrow-wrap {
+  position: absolute;
+  top: 50%;
+  margin-top: -18px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  width: 100%;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .arrow-wrap .arrow {
+  position: absolute;
+  top: 0;
+  background: center/auto 14px no-repeat;
+  font-size: 0px;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 100%;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .arrow-wrap .arrow.prev {
+  background-image: url("../images/ico/ico_prev.png");
+  left: 16px;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .arrow-wrap .arrow.next {
+  background-image: url("../images/ico/ico_next.png");
+  right: 16px;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-index-wrap {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  font-size: 14px;
+  font-Weight: 500;
+  color: var(--base-white);
+  padding: 5px 10px;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+}
+.popup-box .popup-board-wrap .popup-img-wrap .img-wrap .img-index-wrap .total {
+  color: var(--color-contrastyC);
+}
+.popup-box .popup-board-wrap .popup-ip-wrap {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  min-width: 100px;
+}
 .popup-box .popup-close-btn {
   position: absolute;
   top: 20px;
   right: 20px;
   font-size: 0px;
   fill: var(--base-white);
+  width: 30px;
+  height: 30px;
 }
 .popup-box .dimmed {
   position: absolute;
@@ -395,6 +543,23 @@ footer p {
   font-size: 0px;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: -1;
+}
+
+.fileUpload-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-Weight: 500;
+  color: var(--base-white);
+  margin-top: 15px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  width: 100px;
+  height: 36px;
+  border-radius: 4px;
+  background-color: var(--color-blue);
 }
 
 /** //popup-box **/
