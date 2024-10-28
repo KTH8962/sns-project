@@ -472,6 +472,11 @@ footer p {
   width: 100%;
   max-width: 1000px;
 }
+.popup-box .popup-cont.favorite {
+  padding: 15px 20px;
+  width: 600px;
+  height: 450px;
+}
 .popup-box .popup-tit {
   font-size: 32px;
   font-Weight: 500;

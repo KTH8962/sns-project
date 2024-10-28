@@ -25,18 +25,22 @@ const storage = multer.diskStorage({
 router.route('/')
     .get((req, res) => {
         const query = `SELECT F.feedNo, 
-                            feedContents,
-                            feedSearch,
-                            userNickName,
-                            F.userId,
-                            GROUP_CONCAT(I.imgName SEPARATOR ', ') AS imgName,
-                            GROUP_CONCAT(I.imgPath SEPARATOR ', ') AS imgPath,
-                            IFNULL(L.feedNo, 0) AS favoriteCnt
-                        FROM tbl_feed F
-                        INNER JOIN tbl_user U ON F.userId = U.userId
-                        LEFT JOIN tbl_feed_img I ON F.feedNo = I.feedNo
-                        LEFT JOIN tbl_favorite L ON F.feedNo = L.feedNo
-                        GROUP BY F.feedNo, feedSearch, F.userId, feedContents, userNickName`;
+                        F.feedContents,
+                        F.feedSearch,
+                        U.userNickName,
+                        F.userId,
+                        GROUP_CONCAT(I.imgName SEPARATOR ', ') AS imgName,
+                        GROUP_CONCAT(I.imgPath SEPARATOR ', ') AS imgPath,
+                        IFNULL(CNT.favoriteCnt, 0) AS favoriteCnt
+                    FROM tbl_feed F
+                    INNER JOIN tbl_user U ON F.userId = U.userId
+                    LEFT JOIN tbl_feed_img I ON F.feedNo = I.feedNo
+                    LEFT JOIN (
+                        select feedNo, COUNT(feedNo) AS favoriteCnt
+                        FROM tbl_favorite
+                        GROUP BY feedNo	
+                    ) CNT ON F.feedNo = CNT.feedNo
+                    GROUP BY F.feedNo, F.feedSearch, F.userId, F.feedContents, U.userNickName, CNT.favoriteCnt`;
         connection.query(query, (err, results) => {
             if(err) {
                 console.error('피드 조회 실패:', err);
@@ -76,17 +80,29 @@ router.route('/insert')
 
 router.route('/favorite')
     .get((req, res) => {
+        const feedNo = req.query.feedNo;
+        const query = `SELECT F.userId, U.userName, U.userNickName, F.feedNo FROM tbl_favorite F 
+                    INNER JOIN tbl_user U ON F.userId = U.userId
+                    WHERE feedNo = ?`;
+        connection.query(query, [feedNo], (err, results) => {
+            if(err) {
+                console.error('좋아요 리스트 조회 실패:', err);
+                return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
+            }
+            //console.log(results);
+            return res.json({ success: true, message: '좋아요 리스트 조회 완료', list: results });
+        });
     })
     .post((req, res) => {
         const { feedNo, id } = req.body;
-        console.log(req.body);
         const query = `SELECT * FROM tbl_favorite WHERE feedNo = ? AND userId = ?`;
         connection.query(query, [feedNo, id], (err, results) => {
             if(err) {
                 console.error('좋아요 조회 실패:', err);
                 return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
             }
-            if(results > 0) {
+            console.log(results.length);
+            if(results.length > 0) {
                 return res.json({ success: true, state: 'like', message: '좋아요 취소' });
             } else {
                 const insertQeury = `INSERT INTO tbl_favorite(feedNo, userId) VALUES(?, ?)`;
@@ -98,6 +114,18 @@ router.route('/favorite')
                     return res.json({ success: true, state: 'none', message: '좋아요 선택' });
                 });
             }
+        });
+    })
+    .delete((req, res) => {
+        const { feedNo, id } = req.query;
+        //console.log(req.query);
+        const query = `DELETE FROM tbl_favorite WHERE feedNo = ? AND userId = ?`;
+        connection.query(query, [feedNo, id], (err, result) => {
+            if(err) {
+                console.error('좋아요 취소 실패:', err);
+                return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
+            }
+            return res.json({ success: true, message: '좋아요 취소 완료' });
         });
     });
 

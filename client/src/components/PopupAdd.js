@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FileInput from './FileInput';
 import Input from './Input';
 import Textarea from './Textarea';
@@ -14,6 +15,7 @@ function PopupAdd(props) {
     const textRef = useRef();
     const searchRef = useRef();
     const { togglePopup } = useContext(PopupContext);
+    const navigate = useNavigate();
 
       // 파일 추가 시 상태 업데이트
     const handleChangeFile = (e) => {
@@ -101,6 +103,7 @@ function PopupAdd(props) {
                 });
                 alert(response.data.message);
                 if(response.data.success === true) {
+                    navigate('/main');
                     togglePopup();
                 }
             } catch (error) {

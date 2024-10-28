@@ -405,6 +405,10 @@ footer {
             @include PD-IP1(30, 35, 35, 35);     
             width: 100%; max-width: 1000px;
         }
+        &.favorite {
+            @include PD-IP2(15, 20);
+            width: 600px; height: 450px;
+        }
     }
     .popup-tit {
         @include FONT(32, 500);
