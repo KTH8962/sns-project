@@ -6,7 +6,7 @@ const jwtAuthentication = (req, res, next) => {
     if(!token) {
         return res.json({ success: false, message: "로그인 후 이용해주세요."});
     }
-    jwt.verify(token, "secret_key", (err, user) => {
+    jwt.verify(token, "asdasd123asdasd123", (err, user) => {
         if(err) {
             return res.json({ success: false, message: "토근이 유효하지 않습니다."});
         }

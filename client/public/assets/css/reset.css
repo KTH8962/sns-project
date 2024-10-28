@@ -98,8 +98,8 @@ img {
   cursor: auto !important;
 }
 
-input::placeholder, input::-webkit-input-placeholder {
-  color: var(--base-white-04);
+input::placeholder, input::-webkit-input-placeholder, textarea::placeholder {
+  color: var(--color-contrastyA);
   font-family: inherit;
 }
 

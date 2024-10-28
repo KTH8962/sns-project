@@ -17,7 +17,7 @@ img {vertical-align: top; border: 0; image-rendering: -moz-crisp-edges; /* Firef
 .underline {text-decoration: underline!important; text-underline-offset: 2px;}
 :focus {outline: none;}
 :disabled {cursor: auto!important;}
-input::placeholder, input::-webkit-input-placeholder {color: var(--base-white-04); font-family: inherit;}
+input::placeholder, input::-webkit-input-placeholder, textarea::placeholder {color: var(--color-contrastyA); font-family: inherit;}
 select {-webkit-appearance: none; appearance: none;}
 select option {color: #000;}
 input {border: 0; background-color: transparent;}

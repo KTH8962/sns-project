@@ -1,13 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import FileInput from './FileInput';
 import Input from './Input';
 import Textarea from './Textarea';
+import axios from 'axios';
+import { PopupContext } from '../context/PopupContext';
+import { jwtDecode } from 'jwt-decode';
 
 function PopupAdd(props) {
     const [files, setFiles] = useState([]);
     const [imgs, setImgs] = useState([]);
     const [slide, setSelide] = useState(0);
     const fileRef = useRef();
+    const textRef = useRef();
+    const searchRef = useRef();
+    const { togglePopup } = useContext(PopupContext);
 
       // 파일 추가 시 상태 업데이트
     const handleChangeFile = (e) => {
@@ -58,10 +64,49 @@ function PopupAdd(props) {
         }
     };
 
-    // 파일첨부하기
+    // 이미지 첨부하기
     const handleButtonClick = () => {
         fileRef.current.value = '';
         fileRef.current.click();
+    }
+
+    // 파일 등록하기
+    const onSubmit = async () => {
+        const token = localStorage.getItem('token');
+        const id = jwtDecode(token).userId;
+        const contents = textRef.current.value;
+        const search = searchRef.current.value;
+        if(files.length === 0) {
+            alert('이미지를 등록해주세요');
+            return;
+        } else if(contents === '') {
+            alert('내용을 입력해주세요');
+            return;
+        } else if(search === '') {
+            alert('검색어를 입력해주세요');
+            return;
+        } else {
+            const formData = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                formData.append('images', files[i]);
+            }
+            formData.append('contents', contents);
+            formData.append('search', search);
+            formData.append('id', id);
+            try {
+                const response = await axios.post('http://localhost:3100/feed/insert', formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                  }
+                });
+                alert(response.data.message);
+                if(response.data.success === true) {
+                    togglePopup();
+                }
+            } catch (error) {
+                console.error('피드 등록 오류:', error);
+            }
+        }
     }
 
     // 파일 목록이 변경될 때 이미지 목록을 업데이트
@@ -71,7 +116,7 @@ function PopupAdd(props) {
 
     return (
         <div className='popup-box'>
-            <button type='button' className='popup-close-btn'>
+            <button type='button' className='popup-close-btn' onClick={togglePopup}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>닫기
             </button>
             <div className='dimmed'>팝업배경</div>
@@ -112,7 +157,10 @@ function PopupAdd(props) {
                                 <p className='tit'>컨텐츠 입력</p>
                             </div>
                             <div className='bot-box flex-grow'>
-                                <Textarea />
+                                <Textarea 
+                                    ref={textRef}
+                                    placeholder='내용을 입력해주세요'
+                                />
                             </div>
                         </div>
                         <div className='ip-list'>
@@ -120,10 +168,13 @@ function PopupAdd(props) {
                                 <p className='tit'>검색어 입력</p>
                             </div>
                             <div className='bot-box'>
-                                <Input />
+                                <Input 
+                                    ref={searchRef}
+                                    placeholder='검색어를 입력해주세요'
+                                 />
                             </div>
                         </div>
-                        <button type='button' className='fileUpload-btn' onClick={handleButtonClick}>피드 등록</button>
+                        <button type='button' className='fileUpload-btn' onClick={onSubmit}>피드 등록</button>
                     </div>
                 </div>
             </div>
