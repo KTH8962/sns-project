@@ -18,6 +18,7 @@ function MyPage(props) {
                 </div>
             </div>
             <Footer />
+            {/* https://www.pngwing.com/ko/free-png-mwfzg */}
         </main>
     );
 }
