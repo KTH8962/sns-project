@@ -10,7 +10,12 @@ function MyPage(props) {
     return (
         <main>
             <div className='main-container'>
-                <div className='mypage-wrap'></div>
+                <div className='mypage-wrap'>
+                    <div className='mypage-top'>
+                        <button type='button'><img src='/assets/images/bugi.png' alt='test'/></button>
+                    </div>
+                    <div className='mypage-contents'></div>
+                </div>
             </div>
             <Footer />
         </main>
