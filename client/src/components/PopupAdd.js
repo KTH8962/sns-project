@@ -1,23 +1,23 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import FileInput from './FileInput';
 import Input from './Input';
 import Textarea from './Textarea';
 import axios from 'axios';
 import { PopupContext } from '../context/PopupContext';
 import { jwtDecode } from 'jwt-decode';
+import { useLocation } from 'react-router-dom';
 
 function PopupAdd(props) {
+    const { togglePopup, registerFeed } = useContext(PopupContext);
+    const location = useLocation();
     const [files, setFiles] = useState([]);
     const [imgs, setImgs] = useState([]);
     const [slide, setSelide] = useState(0);
     const fileRef = useRef();
     const textRef = useRef();
     const searchRef = useRef();
-    const { togglePopup } = useContext(PopupContext);
-    const navigate = useNavigate();
-
-      // 파일 추가 시 상태 업데이트
+    
+    // 파일 추가 시 상태 업데이트
     const handleChangeFile = (e) => {
         const newFiles = Array.from(e.target.files);
         const typeCheck = newFiles.filter((item) => {
@@ -103,7 +103,9 @@ function PopupAdd(props) {
                 });
                 alert(response.data.message);
                 if(response.data.success === true) {
-                    navigate('/main');
+                    if(location.pathname.includes('/main')){
+                        registerFeed(true);
+                    }
                     togglePopup();
                 }
             } catch (error) {
@@ -122,7 +124,7 @@ function PopupAdd(props) {
             <button type='button' className='popup-close-btn' onClick={togglePopup}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>닫기
             </button>
-            <div className='dimmed'>팝업배경</div>
+            <div className='dimmed' onClick={togglePopup}>팝업배경</div>
             <div className='popup-cont add'>
                 <div className='popup-board-wrap'>
                     <div className='popup-img-wrap'>                        
