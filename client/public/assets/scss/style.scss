@@ -14,9 +14,14 @@
         flex-wrap: $wrap;
     }
 }
-@mixin GRID($columns) {
+@mixin GRID($columns: null, $rows: null) {
     display: grid;
-    grid-template-columns: $columns;
+    @if $columns {
+        grid-template-columns: $columns;
+    }
+    @if $rows {
+        grid-template-rows: $rows;
+    }
 }
 @mixin PD-IP1($t, $r, $b, $l) {
     padding: {
@@ -313,6 +318,103 @@ main {
     }
 }
 
+.mypage-wrap {
+    @include FLEX(null, null, column);
+    @include MG-AUTO(20);
+    width: 1000px;
+    .mypage-top {
+        @include FLEX(null, center);
+        gap: 0 30px;
+        .profile-box {
+            button {
+                @include BORDER(full, var(--color-contrastyE5));
+                width: 200px; height: 200px; border-radius: 100%; overflow: hidden;
+                img {
+                    max-width: 100%; max-height: 100%;
+                }
+            }
+        }
+        .info-box {
+            .tit-wrap {
+                @include FLEX(null, center);
+                gap: 0 15px;
+                .nick {
+                    @include FONT(20, 500);
+                }
+                button {
+                    @include FONT(14, 500);
+                    @include PD-IP2(8, 10);
+                    background-color: var(--color-contrastyE5); border-radius: 4px; transition: all .2s;
+                    &:hover {
+                        background-color: var(--color-contrasty2); color: var(--base-white);
+                    }
+                }
+            }
+            .count {
+                @include FONT(14, 500, var(--color-contrasty75));
+                @include MG-IP1(10, 0, 0, 0);
+            }
+        }
+    }
+    .mypage-contents {
+        @include BORDER(top, var(--color-contrastyE5));
+        @include MG-IP1(40, 0, 0, 0);
+        @include PD-IP1(40, 0, 0, 0);
+        .img-wrap {
+            .img-list {
+                @include FLEX(null, null, null, wrap);
+                gap: 5px;
+                li {
+                    @include POSITION(relative);
+                    @include FONT(0);
+                    width: calc((100% / 3) - (10px / 3));
+                    .img-box {
+                        @include POSITION(relative);
+                        @include PD-IP1(0, 0, 100%, 0);
+                        width: 100%; overflow: hidden; background-color: var(--color-contrasty2);
+                        img {
+                            @include POSITION(absolute, 50%, null, null, 0);
+                            transform: translateY(-50%);
+                            max-width: 100%; max-height: 100%;
+                        }
+                        .icon-box {
+                            @include FLEX(center, center);
+                            @include POSITION(absolute, 0, 0, 0, 0);
+                            gap: 0 25px; z-index: 1; opacity: 0; transition: all .2s;
+                            .icon {
+                                @include FLEX(null, center);
+                                @include FONT(18, 400, var(--base-white));
+                                gap: 0 8px;
+                                svg {
+                                    width: 24px; height: 24px; fill: var(--base-white);
+                                }
+                            }
+                        }
+                        &::before {
+                            @include POSITION(absolute, 0, 0, 0, 0);
+                            background-color: rgba(0, 0, 0, 0.5); content: ''; z-index: 1; opacity: 0; transition: all .2s;
+                        }
+                    }
+                    &.count {
+                        &::before {
+                            @include POSITION(absolute, 10px, 10px);                            @include BG(center, 20px auto);
+                            width: 20px; height: 20px; content: ''; z-index: 1;
+                            background-image: url($url-images-ico + "ico_img_list.png");
+                        }
+                    }
+                    &:hover {
+                        .img-box {
+                            .icon-box, &::before {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 footer {
     @include FLEX(center, center);
     height: 100px;
@@ -366,7 +468,7 @@ footer {
                 }
             }
             &.type2 {
-                @include POSITION(absolute, 6px, 6px, null, null);
+                @include POSITION(absolute, 3px, 3px, null, null);
                 button {
                     @include FONT(12, 800);
                     @include BORDER(full, var(--color-contrastyE5));
@@ -431,14 +533,137 @@ footer {
     .popup-cont {
         background-color: var(--base-white); border-radius: 10px; overflow: hidden; 
         &.add {
-            @include PD-IP1(30, 35, 35, 35);     
+            @include PD-IP1(30, 35, 35, 35);
             width: 100%; max-width: 1000px;
+        }
+        &.profile {
+            @include PD-IP1(30, 35, 35, 35);
+            width: 600px;
         }
         &.favorite {
             width: 415px; height: 415px;
         }
         &.comment {
             width: 650px; height: 650px;
+            .comment-wrap {
+                @include FLEX(null, null, column);
+                height: calc(100% - 47px);
+                .comment-list {
+                    @include BOX-SHADOW(0, 0, 15, null, rgba(0, 0, 0, 0.3), inset);
+                    @include PD-IP2(10, 0);
+                    flex-grow: 1; overflow-y: auto;
+                    li {
+                        @include FLEX(null, center);
+                        @include PD-IP2(8, 15);
+                        gap: 0 20px;
+                        .img-box {
+                            @include BORDER(full, var(--color-contrastyE5));
+                            width: 62px; height: 62px; min-width: 62px; min-height: 62px; border-radius: 100%; overflow: hidden;
+                            img {
+                                max-width: 100%; max-height: 100%;
+                            }
+                        }
+                        .info-box {
+                            @include FLEX(null, null, column);
+                            gap: 4px 0;
+                            .top {
+                                @include FLEX(null, flex-start);
+                                gap: 0 5px;
+                                .nick {
+                                    @include FONT(14, 700);
+                                }
+                                .date {
+                                    @include FONT(12, 500, var(--color-contrastyA));
+                                }
+                            }
+                            .content {
+                                @include FONT(14, 500, var(--color-contrasty75), 1.5);
+                            }
+                        }
+                    }
+                }
+                .comment-ip-wrap {
+                    .ip-box {
+                        input {
+                            border: 0; border-radius: 0; height: 45px;
+                            @include BORDER(top, var(--color-contrastyC));
+                        }
+                        .btn-box {
+                            @include POSITION(null, 6px, 6px);
+                        }
+                    }
+                }
+            }
+        }
+        &.view {
+            @include PD-IP1(30, 35, 35, 35);
+            width: 1500px; height: 780px;
+            .popup-board-wrap {
+                height: 100%; gap: 0;
+                .popup-img-wrap {
+                    width: 65%; height: 100%;
+                    .img-wrap {
+                        height: 100%;
+                        .img-list {
+                            height: 100%;
+                        }
+                    }
+                }
+                .view-comment-wrap {
+                    width: 35%;
+                    .comment-wrap {
+                        @include GRID(null, minmax(62px, auto) 1fr 66px);
+                        height: 100%;gap: 20px;
+                        .ip-list {
+                            @include PD-IP2(0, 20);
+                            @include MG-IP2(0, 0);
+                            //@include BORDER(full, var(--color-contrastyE5));
+                            .comment-list {
+                                @include BOX-SHADOW(0, 0, 10, null, rgba(0, 0, 0, 0.1), inset);
+                                height: 100%; overflow-y: auto;
+                                li {
+                                    @include FLEX(null, center);
+                                    @include PD-IP2(10, 5);
+                                    gap: 0 15px;
+                                    .img-box {
+                                        @include BORDER(full, var(--color-contrastyE5));
+                                        width: 42px; height: 42px; border-radius: 100%; overflow: hidden;
+                                        img {
+                                            max-height: 100%; max-width: 100%;
+                                        }
+                                    }
+                                    .info-box {
+                                        @include FLEX(null, null, column);
+                                        gap: 0 4px;
+                                        .top {
+                                            @include FLEX(null, flex-start);
+                                            gap: 0 5px;
+                                            .nick {
+                                                @include FONT(14, 500);
+                                            }
+                                            .date {
+                                                @include FONT(12, 500, var(--color-contrastyA));
+                                            }
+                                        }
+                                        .content {
+                                            @include FONT(14, 500, var(--color-contrasty75), 1.5);
+                                        }
+                                    }
+                                }
+                            }
+                            &.comment {
+                                overflow: hidden;
+                                .bot-box {
+                                    height: calc(100% - 26px);
+                                }
+                            }
+                            &.contents {
+                                @include PD-IP2(10, 20);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     .popup-tit-wrap {
@@ -474,62 +699,6 @@ footer {
                 .name {
                     @include FONT(12, 500, var(--color-contrastyA));
                     @include MG-IP1(5, 0, 0, 0);
-                }
-            }
-        }
-    }
-    .comment-wrap {
-        @include FLEX(null, null, column);
-        height: calc(100% - 47px);
-        .comment-list {
-            @include BOX-SHADOW(0, 0, 15, null, rgba(0, 0, 0, 0.3), inset);
-            @include PD-IP2(10, 0);
-            flex-grow: 1; overflow-y: auto;
-            li {
-                @include FLEX(null, center);
-                @include PD-IP2(8, 15);
-                gap: 0 20px;
-                .img-box {
-                    @include BORDER(full, var(--color-contrastyE5));
-                    width: 62px; height: 62px; min-width: 62px; min-height: 62px; border-radius: 100%; overflow: hidden;
-                    img {
-                        max-width: 100%; max-height: 100%;
-                    }
-                }
-                .info-box {
-                    @include FLEX(null, null, column);
-                    gap: 4px 0;
-                    .top {
-                        @include FLEX(null, flex-start);
-                        gap: 0 5px;
-                        .nick {
-                            @include FONT(14, 700);
-                        }
-                        .date {
-                            @include FONT(12, 500, var(--color-contrastyA));
-                        }
-                    }
-                    .content {
-                        @include FONT(14, 500, var(--color-contrasty75), 1.5);
-                    }
-                }
-                &.no-list {
-                    @include FLEX(center, center, column);
-                    height: 100%; gap: 15px 0;
-                    .tit {
-                        @include FONT(20, 500);
-                    }
-                    .desc {
-                        @include FONT(14, 500, var(--color-contrastyA));
-                    }
-                }
-            }
-        }
-        .comment-ip-wrap {
-            .ip-box {
-                input {
-                    border: 0; border-radius: 0; height: 45px;
-                    @include BORDER(top, var(--color-contrastyC));
                 }
             }
         }
@@ -616,10 +785,24 @@ footer {
         @include FONT(0);
         fill: var(--base-white); width: 30px; height: 30px;
     }
+    .popup-btn-wrap {
+        @include FLEX(null, center);
+        gap: 0 15px;
+    }
     .dimmed {
         @include POSITION(absolute, 0, 0, 0, 0);
         @include FONT(0);
         background-color: rgba(0, 0, 0, 0.7); z-index: -1;
+    }    
+    .no-list {
+        @include FLEX(center, center, column);
+        height: 100%; gap: 15px 0!important;
+        .tit {
+            @include FONT(20, 500);
+        }
+        .desc {
+            @include FONT(14, 500, var(--color-contrastyA));
+        }
     }
 }
 

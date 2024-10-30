@@ -53,7 +53,7 @@ function PopupAdd(props) {
                             return <li key={index}>
                                 <div className='img-box'>
                                     <img 
-                                        src={item.userProfilePath !== null ? item.userProfilePath : '/assets/images/profile_default.png'} 
+                                        src={item.userProfilePath !== null ? `http://localhost:3100/${item.userProfilePath}` : '/assets/images/profile_default.png'} 
                                         alt={item.userNickName ? `${item.userNickName}의 프로필 사진` : '기본 프로필 사진'}
                                     />
                                 </div>

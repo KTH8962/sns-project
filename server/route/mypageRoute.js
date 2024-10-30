@@ -9,7 +9,7 @@ const jwtAuthentication = require('../jwtAuth');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
       //console.log(file);
-      cb(null, 'img/'); // 서버 내 img 폴더
+      cb(null, 'img/profile'); // 서버 내 img 폴더
     },
     filename: (req, file, cb) => {
       const ext = path.extname(file.originalname); // 파일 확장자
@@ -24,64 +24,120 @@ const storage = multer.diskStorage({
 
 router.route('/')
     .get((req, res) => {
-        const query = `SELECT F.feedNo, 
-                        F.feedContents,
-                        F.feedSearch,
-                        U.userNickName,
-                        F.userId,
-                        GROUP_CONCAT(I.imgName SEPARATOR ',') AS imgName,
-                        GROUP_CONCAT(I.imgPath SEPARATOR ',') AS imgPath,
-                        IFNULL(CNT.favoriteCnt, 0) AS favoriteCnt,
-                        IFNULL(C.commentCnt, 0) AS commentCnt
-                        FROM tbl_feed F
-                        INNER JOIN tbl_user U ON F.userId = U.userId
-                        LEFT JOIN tbl_feed_img I ON F.feedNo = I.feedNo
+        const loginId = req.query.loginId;
+        const query = `SELECT userNickName, userProfilePath, feedCnt
+                        FROM tbl_user U
                         LEFT JOIN (
-                        SELECT feedNo, COUNT(feedNo) AS favoriteCnt
-                        FROM tbl_favorite
-                        GROUP BY feedNo	
-                        ) CNT ON F.feedNo = CNT.feedNo
+                            SELECT COUNT(userId) AS feedCnt, userId
+                            from tbl_feed
+                            GROUP BY userId
+                        ) F ON U.userId = F.userId
+                        WHERE U.userId = ?`;
+        const query2 = `SELECT F.feedNo, I.imgPath, I.imgCnt, IFNULL(L.favoriteCnt, 0) AS favoriteCnt, IFNULL(C.commentCnt, 0) AS commentCnt
+                        FROM tbl_feed F
+                        INNER JOIN (
+                            SELECT *
+                            FROM (
+                                SELECT ROW_NUMBER() OVER (PARTITION BY feedNo ORDER BY imgPath) AS RM, I.feedNo, imgPath, imgCnt
+                                FROM tbl_feed_img I
+                                INNER JOIN (
+                                    SELECT COUNT(feedNo) AS imgCnt, feedNo
+                                    FROM tbl_feed_img
+                                    GROUP BY feedNo
+                                ) I2 ON I.feedNo = I2.feedNo
+                            ) AS T WHERE RM = 1
+                        ) I ON F.feedNo = I.feedNo
+                        LEFT JOIN (
+                            SELECT COUNT(feedNo) AS favoriteCnt, feedNo
+                            FROM tbl_favorite
+                            GROUP BY feedNo
+                        ) L ON F.feedNo = L.feedNo
                         LEFT JOIN (
                             SELECT COUNT(feedNo) AS commentCnt, feedNo
-                            FROM TBL_FEED_COMMENT
+                            FROM tbl_feed_comment
                             GROUP BY feedNo
                         ) C ON F.feedNo = C.feedNo
-                        GROUP BY F.feedNo, F.feedSearch, F.userId, F.feedContents, U.userNickName, CNT.favoriteCnt, C.commentCnt`;
-        connection.query(query, (err, results) => {
+                        WHERE F.userId = ?
+                        ORDER BY F.feedNO DESC`;
+        connection.query(query, [loginId], (err, result) => {
+            if(err) {
+                console.error('프로필 조회 실패:', err);
+                return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
+            }
+            connection.query(query2, [loginId], (err, results) => {
+                if(err) {
+                    console.error('피드 조회 실패:', err);
+                    return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
+                }
+                return res.json({ success: true, message: '조회 완료 되었습니다.', list: results, profile: result[0]});
+            })
+        });
+    });
+
+router.route('/view')
+    .get((req, res) => {
+        const feedNo = req.query.feedNo;
+        const query = `SELECT F.feedNo, F.feedContents, F.feedSearch, F.createAt, C.commentNo, C.userId, C.commentContents, L.favoriteCnt, U.userNickName, U.userProfilePath,
+                        GROUP_CONCAT(I.imgName SEPARATOR ',') AS imgName,
+                        GROUP_CONCAT(I.imgPath SEPARATOR ',') AS imgPath,
+                        CASE 
+                            WHEN DATEDIFF(CURRENT_DATE, C.createAt) < 1 THEN DATE_FORMAT(C.createAt, '%m-%d %H:%i')
+                            WHEN DATEDIFF(CURRENT_DATE, C.createAt) < 7 THEN CONCAT(DATEDIFF(CURRENT_DATE, C.createAt), '일 전')
+                            WHEN DATEDIFF(CURRENT_DATE, C.createAt) < 30 THEN CONCAT(FLOOR(DATEDIFF(CURRENT_DATE, C.createAt) / 7), '주 전')
+                            ELSE CONCAT(FLOOR(DATEDIFF(CURRENT_DATE, C.createAt) / 30), '달 전')
+                        END AS createDate
+                        FROM tbl_feed F
+                        LEFT JOIN tbl_feed_img I ON F.feedNo = I.feedNo
+                        LEFT JOIN tbl_feed_comment C ON F.feedNo = C.feedNo
+                        LEFT JOIN (
+                            SELECT COUNT(feedNo) AS favoriteCnt, feedNo
+                            FROM tbl_favorite
+                            GROUP BY feedNo
+                        ) L ON F.feedNo = L.feedNo
+                        LEFT JOIN tbl_user U ON U.userId = C.userId
+                        WHERE F.feedNo = ?
+                        GROUP BY F.feedNo, F.feedContents, F.feedSearch, F.createAt, C.commentNo, C.userId, C.commentContents, L.favoriteCnt, U.userNickName, U.userProfilePath, C.createAt`;
+
+        connection.query(query, [feedNo], (err, results) => {
             if(err) {
                 console.error('피드 조회 실패:', err);
                 return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
             }
-            return res.json({ success: true, message: '조회 완료 되었습니다.', list: results})
+            res.json({ success: true, message: '조회 완료 되었습니다.', list: results, feed: results[0]});
         });
-    })
+    });
 
 router.route('/insert')   
     .post(upload.array('images'), (req, res) => {
-        const { contents, search, id } = req.body;
-        //console.log(contents, search, token, req.body);
-        const query = `INSERT INTO TBL_FEED(feedNo, userId, feedContents, feedSearch, createAt, updateAt) VALUES(NULL, ?, ?, ?, NOW(), NOW())`;
-        connection.query(query, [id, contents, search], async (err, feedResult) => {
+        const { id } = req.body;
+        console.log(req.body);
+        const query = `UPDATE tbl_user SET userProfilePath = ? WHERE userId = ?`;
+
+        const files = req.files;
+        if (!files || files.length === 0) {
+            return res.json({ success: false, message: "파일이 업로드되지 않았습니다." });
+        }
+        const filePath = req.files[0].path;
+        
+        //const imgData = files.map(file => [null, file.filename, file.path]);
+        //console.log(files);
+        connection.query(query, [filePath, id], async (err, feedResult) => {
             if(err) {
                 console.error('피드 업로드 실패:', err);
                 return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
             }
-            const feed_id = feedResult.insertId;
-            const files = req.files;
-            if (!files || files.length === 0) {
-                return res.json({ success: false, message: "파일이 업로드되지 않았습니다." });
-            }
-
-            const imgQuery = 'INSERT INTO tbl_feed_img(imgNo, feedNo, imgName, imgPath, createAt) VALUES ?';
-            const imgData = files.map(file => [null, feed_id, file.filename, file.path, new Date()]);
-            connection.query(imgQuery, [imgData], (err, imgResult) => {
-                if (err) {
-                console.error('이미지 저장 실패:', err);
-                    return res.status(500).json({ success: false, message: "이미지 저장 실패" });
-                }
-                res.json({ success: true, message: "피드 및 파일이 성공적으로 저장되었습니다!" });
-            });
+            return res.json({ success: true, message: "프로필 변경 되었습니다!" });
         });
+
+        //     const imgQuery = 'INSERT INTO tbl_feed_img(imgNo, feedNo, imgName, imgPath, createAt) VALUES ?';
+        //     connection.query(imgQuery, [imgData], (err, imgResult) => {
+        //         if (err) {
+        //         console.error('이미지 저장 실패:', err);
+        //             return res.status(500).json({ success: false, message: "이미지 저장 실패" });
+        //         }
+        //         res.json({ success: true, message: "피드 및 파일이 성공적으로 저장되었습니다!" });
+        //     });
+        // });
     });
 
 router.route('/favorite')

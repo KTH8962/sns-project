@@ -12,10 +12,14 @@ function RouterPage(props) {
     const location = useLocation();
     const showNavbar = ['/main', '/mypage'].includes(location.pathname);
     const [popup, setPopup] = useState(false);
+    const [view, setView] = useState(false);
     const [completeFeed, setCompleteFeed] = useState(false);
     const [completeComment, setCompleteComment] = useState(false);
     const togglePopup = () => {
         setPopup(!popup);
+    }
+    const toggleView = () => {
+        setView(!view);
     }
     const registerFeed = (state) => {
         setCompleteFeed(state);
@@ -30,7 +34,7 @@ function RouterPage(props) {
     }
     return (
         <>
-            <PopupContext.Provider value={{popup, togglePopup, completeFeed, registerFeed, completeComment, registerComment}}>
+            <PopupContext.Provider value={{popup, togglePopup, view, toggleView, completeFeed, registerFeed, completeComment, registerComment}}>
             {showNavbar && <Header />}
                 <Routes>
                     <Route path='/' element={<Login />} />
