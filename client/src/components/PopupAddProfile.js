@@ -10,7 +10,6 @@ function PopupAdd(props) {
     const location = useLocation();
     const [files, setFiles] = useState([]);
     const [imgs, setImgs] = useState([]);
-    const [slide, setSelide] = useState(0);
     const fileRef = useRef();
     
     // 파일 추가 시 상태 업데이트
@@ -49,8 +48,8 @@ function PopupAdd(props) {
     };
 
     // 파일 제거
-    const handleRemoveFile = (index) => {
-        const updatedFiles = files.filter((_, idx) => idx !== index);
+    const handleRemoveFile = () => {
+        const updatedFiles = files.filter((_, idx) => idx !== 0);
         setFiles(updatedFiles);
     };
 
@@ -113,7 +112,7 @@ function PopupAdd(props) {
                                     <li key={item.name}>
                                         <div className='img-box'>
                                             <img src={item.src} alt={item.name} />
-                                            <button type='button' className='remove-btn' onClick={() => handleRemoveFile(slide)}>삭제</button>
+                                            <button type='button' className='remove-btn' onClick={() => handleRemoveFile()}>삭제</button>
                                         </div>
                                     </li>
                                 ))}               
