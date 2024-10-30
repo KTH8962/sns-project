@@ -1,14 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import FileInput from './FileInput';
-import Input from './Input';
-import Textarea from './Textarea';
 import axios from 'axios';
 import { PopupContext } from '../context/PopupContext';
 import { jwtDecode } from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
 
 function PopupAdd(props) {
-    const { togglePopup, registerFeed } = useContext(PopupContext);
+    const { toggleProfileImg, registerProfile } = useContext(PopupContext);
     const location = useLocation();
     const [files, setFiles] = useState([]);
     const [imgs, setImgs] = useState([]);
@@ -66,6 +64,7 @@ function PopupAdd(props) {
     const onSubmit = async () => {
         const token = localStorage.getItem('token');
         const id = jwtDecode(token).userId;
+        registerProfile(false);
         if(files.length === 0) {
             alert('이미지를 등록해주세요');
             return;
@@ -84,9 +83,9 @@ function PopupAdd(props) {
                 alert(response.data.message);
                 if(response.data.success === true) {
                     if(['/mypage'].includes(location.pathname)){
-                        //registerFeed(true);
+                        registerProfile(true);
                     }
-                    //togglePopup();
+                    toggleProfileImg();
                 }
             } catch (error) {
                 console.error('피드 등록 오류:', error);
@@ -101,10 +100,10 @@ function PopupAdd(props) {
 
     return (
         <div className='popup-box'>
-            <button type='button' className='popup-close-btn'>
+            <button type='button' className='popup-close-btn' onClick={toggleProfileImg}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>닫기
             </button>
-            <div className='dimmed'>팝업배경</div>
+            <div className='dimmed' onClick={toggleProfileImg}>팝업배경</div>
             <div className='popup-cont profile'>
                 <div className='popup-board-wrap'>
                     <div className='popup-img-wrap'>                        

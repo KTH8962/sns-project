@@ -8,7 +8,7 @@ import PopupAddProfile from '../components/PopupAddProfile';
 import { PopupContext } from '../context/PopupContext';
 
 function MyPage(props) {
-    const { view, toggleView, completeFeed, completeComment } = useContext(PopupContext);
+    const { view, toggleView, profileImg, toggleProfileImg, completeFeed, completeComment, completeFavorite, completeProfile } = useContext(PopupContext);
     const [profile, setProfile] = useState('');
     const [feedList, setFeedList] = useState([]);
     const [feedNo, setFeedNo] = useState();
@@ -17,8 +17,9 @@ function MyPage(props) {
 
     useEffect(() => {
         fnMypageSearch();
+        console.log(completeFavorite);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[ completeFeed, completeComment ]);
+    },[ completeFeed, completeComment, completeFavorite, completeProfile ]);
 
     const navigate = useNavigate();
     const logout = () => {
@@ -41,7 +42,7 @@ function MyPage(props) {
             <div className='main-container'>
                 <div className='mypage-wrap'>
                     <div className='mypage-top'>
-                        <div className='profile-box'><button type='button'><img src={profile.userProfilePath === null ? 'assets/images/profile_default.png' : `http://localhost:3100/${profile.userProfilePath}`} alt={`${profile.userNickName}의 프로필 사진`} /></button></div>
+                        <div className='profile-box'><button type='button' onClick={toggleProfileImg}><img src={profile.userProfilePath === null ? 'assets/images/profile_default.png' : `http://localhost:3100/${profile.userProfilePath}`} alt={`${profile.userNickName}의 프로필 사진`} /></button></div>
                         <div className='info-box'>
                             <div className='tit-wrap'><p className='nick'>{profile.userNickName}</p><button onClick={logout}>로그아웃</button></div>
                             <p className='count'>게시물 {profile.feedCnt}</p>
@@ -68,7 +69,7 @@ function MyPage(props) {
             </div>
             <Footer />
             {view && <PopupView feedNo={feedNo} loginId={loginId} />}
-            {/* <PopupAddProfile /> */}
+            {profileImg && <PopupAddProfile />}
             {/* https://www.pngwing.com/ko/free-png-mwfzg */}
         </main>
     );

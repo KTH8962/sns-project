@@ -30,7 +30,10 @@ INSERT INTO `tbl_favorite` (`feedNo`, `userId`) VALUES
 	(2, 'user2@user.com'),
 	(3, 'user@user.com'),
 	(1, 'user@user.com'),
-	(1, 'user2@user.com');
+	(1, 'user2@user.com'),
+	(9, 'user@user.com'),
+	(10, 'user@user.com'),
+	(5, 'user@user.com');
 
 -- 테이블 dailygram.tbl_feed 구조 내보내기
 CREATE TABLE IF NOT EXISTS `tbl_feed` (
@@ -43,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `tbl_feed` (
   PRIMARY KEY (`feedNo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 테이블 데이터 dailygram.tbl_feed:~8 rows (대략적) 내보내기
+-- 테이블 데이터 dailygram.tbl_feed:~10 rows (대략적) 내보내기
 INSERT INTO `tbl_feed` (`feedNo`, `userId`, `feedContents`, `feedSearch`, `createAt`, `updateAt`) VALUES
 	(1, 'user@user.com', '첫번째 컨텐츠입니다.', '꼬북이, 파이리', '2024-10-28 00:00:00', '2024-10-28 00:00:00'),
 	(2, 'user@user.com', '두번째 컨텐츠입니다.', '피카츄', '2024-10-28 00:00:00', '2024-10-28 00:00:00'),
@@ -64,9 +67,9 @@ CREATE TABLE IF NOT EXISTS `tbl_feed_comment` (
   `commentContents` text,
   `createAt` datetime DEFAULT NULL,
   PRIMARY KEY (`commentNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 테이블 데이터 dailygram.tbl_feed_comment:~11 rows (대략적) 내보내기
+-- 테이블 데이터 dailygram.tbl_feed_comment:~17 rows (대략적) 내보내기
 INSERT INTO `tbl_feed_comment` (`commentNo`, `feedNo`, `userId`, `commentContents`, `createAt`) VALUES
 	(1, 1, 'user2@user.com', '첫번째 댓글', '2024-10-29 00:00:00'),
 	(2, 1, 'user2@user.com', '두번째 댓글', '2024-10-29 00:00:00'),
@@ -84,7 +87,8 @@ INSERT INTO `tbl_feed_comment` (`commentNo`, `feedNo`, `userId`, `commentContent
 	(15, 3, 'user@user.com', '댓글입니다.', '2024-10-30 17:01:28'),
 	(16, 3, 'user@user.com', '다시 테스트', '2024-10-30 17:02:04'),
 	(17, 7, 'user@user.com', '댓글이다.', '2024-10-30 18:07:28'),
-	(18, 5, 'user@user.com', '프리져다', '2024-10-30 18:07:42');
+	(18, 5, 'user@user.com', '프리져다', '2024-10-30 18:07:42'),
+	(19, 9, 'user@user.com', '댓글추가!', '2024-10-30 23:27:41');
 
 -- 테이블 dailygram.tbl_feed_img 구조 내보내기
 CREATE TABLE IF NOT EXISTS `tbl_feed_img` (
@@ -96,7 +100,7 @@ CREATE TABLE IF NOT EXISTS `tbl_feed_img` (
   PRIMARY KEY (`imgNo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- 테이블 데이터 dailygram.tbl_feed_img:~11 rows (대략적) 내보내기
+-- 테이블 데이터 dailygram.tbl_feed_img:~15 rows (대략적) 내보내기
 INSERT INTO `tbl_feed_img` (`imgNo`, `feedNo`, `imgName`, `imgPath`, `createAt`) VALUES
 	(1, 1, '1730088036436.png', 'img\\1730088036436.png', '2024-10-28'),
 	(2, 1, '1730088036439.png', 'img\\1730088036439.png', '2024-10-28'),
@@ -126,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `tbl_user` (
 
 -- 테이블 데이터 dailygram.tbl_user:~2 rows (대략적) 내보내기
 INSERT INTO `tbl_user` (`userId`, `userPwd`, `userName`, `userNickName`, `userProfilePath`) VALUES
-	('user@user.com', '$2b$10$DKgCGNzESECRCHvEbzIeUO7U2HlCqO.DDWUxPjns9wJztn6QLbtVG', '홍길동', '홍홍홍', 'img\\profile\\1730278795566.jpg'),
+	('user@user.com', '$2b$10$DKgCGNzESECRCHvEbzIeUO7U2HlCqO.DDWUxPjns9wJztn6QLbtVG', '홍길동', '홍홍홍', 'img\\profile\\1730285308662.jpg'),
 	('user2@user.com', '$2b$10$3JAxk8s/4sPssOlVSBFJduN4QSKWYCjhReKJqInjMMcBo/ErjDCgG', '김철수', '처처', NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

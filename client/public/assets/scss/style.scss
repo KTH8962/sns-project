@@ -612,18 +612,18 @@ footer {
                 .view-comment-wrap {
                     width: 35%;
                     .comment-wrap {
-                        @include GRID(null, minmax(62px, auto) 1fr 66px);
+                        @include GRID(null, minmax(70px, auto) 1fr 30px 66px);
                         height: 100%;gap: 20px;
                         .ip-list {
                             @include PD-IP2(0, 20);
                             @include MG-IP2(0, 0);
-                            //@include BORDER(full, var(--color-contrastyE5));
                             .comment-list {
-                                @include BOX-SHADOW(0, 0, 10, null, rgba(0, 0, 0, 0.1), inset);
+                                @include PD-IP2(10, 0);
+                                @include BOX-SHADOW(0, 0, 10, null, rgba(0, 0, 0, 0.05), inset);
                                 height: 100%; overflow-y: auto;
                                 li {
                                     @include FLEX(null, center);
-                                    @include PD-IP2(10, 5);
+                                    @include PD-IP2(5, 15);
                                     gap: 0 15px;
                                     .img-box {
                                         @include BORDER(full, var(--color-contrastyE5));
@@ -649,6 +649,9 @@ footer {
                                             @include FONT(14, 500, var(--color-contrasty75), 1.5);
                                         }
                                     }
+                                    & + li {
+                                        @include MG-IP1(5, 0, 0, 0);
+                                    }
                                 }
                             }
                             &.comment {
@@ -659,6 +662,25 @@ footer {
                             }
                             &.contents {
                                 @include PD-IP2(10, 20);
+                                .bot-box {
+                                    @include FONT(16, 500, null, 1.5);
+                                }
+                            }
+                            &.favorite {
+                                .icon-box {
+                                    @include FLEX(null, center);
+                                    @include FONT(16, 500);
+                                    gap: 0 5px; height: 24px;
+                                    svg {
+                                        fill: var((--color-contrasty3)); width: 24px; height: 24px;
+                                    }
+                                    &.comment {
+                                        button {
+                                            @include FLEX(null, center);
+                                            gap: 0 5px;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

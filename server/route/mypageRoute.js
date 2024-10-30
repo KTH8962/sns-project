@@ -3,6 +3,7 @@ const router = express.Router();
 const connection = require('../db');
 const path = require('path');
 const multer = require("multer");
+const fs = require("fs");
 const jwtAuthentication = require('../jwtAuth');
 
 // 파일 저장 경로 및 이름 설정
@@ -77,7 +78,8 @@ router.route('/')
 router.route('/view')
     .get((req, res) => {
         const feedNo = req.query.feedNo;
-        const query = `SELECT F.feedNo, F.feedContents, F.feedSearch, F.createAt, C.commentNo, C.userId, C.commentContents, L.favoriteCnt, U.userNickName, U.userProfilePath,
+        const query = `SELECT F.feedNo, F.feedContents, F.feedSearch, F.createAt, C.commentNo, C.userId, C.commentContents, U.userNickName, U.userProfilePath,
+                        IFNULL(L.favoriteCnt, 0) AS favoriteCnt,
                         GROUP_CONCAT(I.imgName SEPARATOR ',') AS imgName,
                         GROUP_CONCAT(I.imgPath SEPARATOR ',') AS imgPath,
                         CASE 
@@ -110,8 +112,28 @@ router.route('/view')
 router.route('/insert')   
     .post(upload.array('images'), (req, res) => {
         const { id } = req.body;
-        console.log(req.body);
-        const query = `UPDATE tbl_user SET userProfilePath = ? WHERE userId = ?`;
+        //console.log(req.body);
+        const query = `SELECT userProfilePath FROM tbl_user WHERE userId = ?`
+        const query2 = `UPDATE tbl_user SET userProfilePath = ? WHERE userId = ?`;
+
+        connection.query(query, [id], (err, result) => {
+            const imgPath = result[0]?.userProfilePath;
+            if(err) {
+                console.error('이미지 조회 실패:', err);
+                return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
+            }
+            if(imgPath !== null) {
+                if (fs.existsSync(`${imgPath}`)) {
+                    // 파일이 존재한다면 true 그렇지 않은 경우 false 반환
+                    try {
+                        fs.unlinkSync(`${imgPath}`);
+                        //console.log("image delete");
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+            }
+        });
 
         const files = req.files;
         if (!files || files.length === 0) {
@@ -119,9 +141,7 @@ router.route('/insert')
         }
         const filePath = req.files[0].path;
         
-        //const imgData = files.map(file => [null, file.filename, file.path]);
-        //console.log(files);
-        connection.query(query, [filePath, id], async (err, feedResult) => {
+        connection.query(query2, [filePath, id], async (err, feedResult) => {
             if(err) {
                 console.error('피드 업로드 실패:', err);
                 return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
@@ -129,15 +149,6 @@ router.route('/insert')
             return res.json({ success: true, message: "프로필 변경 되었습니다!" });
         });
 
-        //     const imgQuery = 'INSERT INTO tbl_feed_img(imgNo, feedNo, imgName, imgPath, createAt) VALUES ?';
-        //     connection.query(imgQuery, [imgData], (err, imgResult) => {
-        //         if (err) {
-        //         console.error('이미지 저장 실패:', err);
-        //             return res.status(500).json({ success: false, message: "이미지 저장 실패" });
-        //         }
-        //         res.json({ success: true, message: "피드 및 파일이 성공적으로 저장되었습니다!" });
-        //     });
-        // });
     });
 
 router.route('/favorite')
@@ -190,40 +201,5 @@ router.route('/favorite')
             return res.json({ success: true, message: '좋아요 취소 완료' });
         });
     });
-
-router.route('/comment')
-    .get((req, res) => {
-        const feedNo = req.query.feedNo;
-        const query = `SELECT C.feedNo, C.commentContents, U.userNickName, U.userProfilePath ,
-                        CASE 
-                            WHEN DATEDIFF(CURRENT_DATE, createAt) < 1 THEN DATE_FORMAT(createAt, '%m-%d %H:%i')
-                            WHEN DATEDIFF(CURRENT_DATE, createAt) < 7 THEN CONCAT(DATEDIFF(CURRENT_DATE, createAt), '일 전')
-                            WHEN DATEDIFF(CURRENT_DATE, createAt) < 30 THEN CONCAT(FLOOR(DATEDIFF(CURRENT_DATE, createAt) / 7), '주 전')
-                            ELSE CONCAT(FLOOR(DATEDIFF(CURRENT_DATE, createAt) / 30), '달 전')
-                        END AS createDate
-                    FROM tbl_feed_comment C 
-                    INNER JOIN tbl_user U ON C.userId = U.userId
-                    WHERE feedNo = ?`;
-        connection.query(query, [feedNo], (err, results) => {
-            if(err) {
-                console.error('좋아요 리스트 조회 실패:', err);
-                return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
-            }
-            //console.log(results);
-            return res.json({ success: true, message: '좋아요 리스트 조회 완료', list: results });
-        });
-    })
-    .post((req, res) => {
-        const { feedNo, loginId, comment } = req.body;
-        const query = `INSERT INTO tbl_feed_comment(commentNo, feedNo, userId, commentContents, createAt) VALUES(NULL, ?, ?, ?, NOW())`;
-
-        connection.query(query, [feedNo, loginId, comment], (err, result) => {
-            if(err) {
-                console.error('댓글 등록 실패:', err);
-                return res.json({ success: false, message: '서버 오류가 발생했습니다.' });
-            }
-            return res.json({ success: true, message: '댓글 등록 완료' });
-        });
-    })
 
 module.exports = router;

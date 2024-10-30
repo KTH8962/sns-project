@@ -757,7 +757,7 @@ footer p {
 }
 .popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap {
   display: grid;
-  grid-template-rows: minmax(62px, auto) 1fr 66px;
+  grid-template-rows: minmax(70px, auto) 1fr 30px 66px;
   height: 100%;
   gap: 20px;
 }
@@ -766,14 +766,15 @@ footer p {
   margin: 0px 0px;
 }
 .popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list .comment-list {
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1) inset;
+  padding: 10px 0px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05) inset;
   height: 100%;
   overflow-y: auto;
 }
 .popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list .comment-list li {
   display: flex;
   align-items: center;
-  padding: 10px 5px;
+  padding: 5px 15px;
   gap: 0 15px;
 }
 .popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list .comment-list li .img-box {
@@ -812,6 +813,12 @@ footer p {
   color: var(--color-contrasty75);
   line-height: 1.5;
 }
+.popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list .comment-list li + li {
+  margin-top: 5px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+}
 .popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list.comment {
   overflow: hidden;
 }
@@ -820,6 +827,29 @@ footer p {
 }
 .popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list.contents {
   padding: 10px 20px;
+}
+.popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list.contents .bot-box {
+  font-size: 16px;
+  font-Weight: 500;
+  line-height: 1.5;
+}
+.popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list.favorite .icon-box {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-Weight: 500;
+  gap: 0 5px;
+  height: 24px;
+}
+.popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list.favorite .icon-box svg {
+  fill: var(--color-contrasty3);
+  width: 24px;
+  height: 24px;
+}
+.popup-box .popup-cont.view .popup-board-wrap .view-comment-wrap .comment-wrap .ip-list.favorite .icon-box.comment button {
+  display: flex;
+  align-items: center;
+  gap: 0 5px;
 }
 .popup-box .popup-tit-wrap {
   position: relative;
