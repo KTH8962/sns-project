@@ -46,7 +46,8 @@ router.route('/')
                             FROM TBL_FEED_COMMENT
                             GROUP BY feedNo
                         ) C ON F.feedNo = C.feedNo
-                        GROUP BY F.feedNo, F.feedSearch, F.userId, F.feedContents, U.userNickName, CNT.favoriteCnt, C.commentCnt`;
+                        GROUP BY F.feedNo, F.feedSearch, F.userId, F.feedContents, U.userNickName, CNT.favoriteCnt, C.commentCnt
+                        ORDER BY feedNo DESC`;
         connection.query(query, (err, results) => {
             if(err) {
                 console.error('피드 조회 실패:', err);
