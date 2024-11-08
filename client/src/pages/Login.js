@@ -12,7 +12,7 @@ function Login(props) {
     const handleLogin = async () => {
         const id = idRef.current.value;
         const pwd = pwdRef.current.value;
-        const res = await axios.post(`http://localhost:3100/user`, { id, pwd });
+        const res = await axios.post(`http://13.125.58.106:3100/user`, { id, pwd });
         if(res.data.success) {
             localStorage.setItem("token", res.data.token);
             navigate("/main");

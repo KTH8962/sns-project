@@ -18,7 +18,7 @@ function PopupAdd(props) {
 
     const fnViewFeed = async () => {
         //console.log(props.feedNo);
-        const res = await axios.get(`http://localhost:3100/mypage/view`, {
+        const res = await axios.get(`http://13.125.58.106:3100/mypage/view`, {
             params: { feedNo: props.feedNo }
         });
         setFeed(res.data.feed);
@@ -31,7 +31,7 @@ function PopupAdd(props) {
         const comment = commentRef.current.value;
         const feedNo = props.feedNo;
         const loginId = props.loginId;
-        const res = await axios.post(`http://localhost:3100/feed/comment`, { comment, feedNo, loginId });
+        const res = await axios.post(`http://13.125.58.106:3100/feed/comment`, { comment, feedNo, loginId });
         if(res.data.success) {
             fnViewFeed();
             registerComment(true);
@@ -41,9 +41,9 @@ function PopupAdd(props) {
     
     const handleToggleLike = async (feedNo, id) => {
         try {
-            const res = await axios.post("http://localhost:3100/feed/favorite", {feedNo, id});
+            const res = await axios.post("http://13.125.58.106:3100/feed/favorite", {feedNo, id});
             if(res.data.state === 'like') {
-                await axios.delete("http://localhost:3100/feed/favorite", {
+                await axios.delete("http://13.125.58.106:3100/feed/favorite", {
                     params: { feedNo, id }
                 });
             }
@@ -73,7 +73,7 @@ function PopupAdd(props) {
                                 {imgs && Array.from(imgs).filter((_, index) => index === slide).map((item) => (
                                     <li key={item}>
                                         <div className='img-box'>
-                                            <img src={`http://localhost:3100/${item}`} alt={item} />
+                                            <img src={`http://13.125.58.106:3100/${item}`} alt={item} />
                                         </div>
                                     </li>
                                 ))}               
@@ -108,7 +108,7 @@ function PopupAdd(props) {
                                             return <li key={index}>
                                                 <div className='img-box'>
                                                     <img 
-                                                        src={item.userProfilePath !== null ? `http://localhost:3100/${item.userProfilePath}` : '/assets/images/profile_default.png'} 
+                                                        src={item.userProfilePath !== null ? `http://13.125.58.106:3100/${item.userProfilePath}` : '/assets/images/profile_default.png'} 
                                                         alt={item.userNickName ? `${item.userNickName}의 프로필 사진` : '기본 프로필 사진'}
                                                     />
                                                 </div>

@@ -19,7 +19,7 @@ function Main(props) {
     async function fnFeedSearch() {
         //console.log(token);
       try {
-        const res = await axios.get("http://localhost:3100/feed", { headers: {token} });
+        const res = await axios.get("http://13.125.58.106:3100/feed", { headers: {token} });
         setFeeds(res.data.list);
       } catch (error) {
         console.log(error);
@@ -28,9 +28,9 @@ function Main(props) {
 
     async function handleToggleLike(feedNo, id) {
         try {
-            const res = await axios.post("http://localhost:3100/feed/favorite", {feedNo, id});
+            const res = await axios.post("http://13.125.58.106:3100/feed/favorite", {feedNo, id});
             if(res.data.state === 'like') {
-                await axios.delete("http://localhost:3100/feed/favorite", {
+                await axios.delete("http://13.125.58.106:3100/feed/favorite", {
                     params: { feedNo, id }
                 });
             }

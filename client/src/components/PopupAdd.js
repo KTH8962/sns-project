@@ -96,7 +96,7 @@ function PopupAdd(props) {
             formData.append('search', search);
             formData.append('id', id);
             try {
-                const response = await axios.post('http://localhost:3100/feed/insert', formData, {
+                const response = await axios.post('http://13.125.58.106:3100/feed/insert', formData, {
                   headers: {
                     'Content-Type': 'multipart/form-data',
                   }

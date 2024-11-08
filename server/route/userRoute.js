@@ -10,7 +10,7 @@ const JWT_KEY = "asdasd123asdasd123";
 router.route("/")
     .post((req, res) => {
         const { id, pwd } = req.body;
-        const query = `SELECT * FROM TBL_USER WHERE userId = ?`;
+        const query = `SELECT * FROM tbl_user WHERE userId = ?`;
         connection.query(query, [id], async (err, results) => {
             if(err) {
                 console.error('피드 조회 실패:', err);
@@ -38,8 +38,8 @@ router.route("/join")
 
         const query = `
             SELECT 
-                (SELECT COUNT(*) FROM TBL_USER WHERE userId = ?) AS idExists,
-                (SELECT COUNT(*) FROM TBL_USER WHERE userNickName = ?) AS nickExists
+                (SELECT COUNT(*) FROM tbl_user WHERE userId = ?) AS idExists,
+                (SELECT COUNT(*) FROM tbl_user WHERE userNickName = ?) AS nickExists
             `;
 
         connection.query(query, [id, nick], async (err, results) => {
@@ -57,7 +57,7 @@ router.route("/join")
                 return res.json({ success: false, message: '이미 사용중인 닉네임입니다.' });
             }
 
-            const insertQuery = `INSERT INTO TBL_USER(userId, userPwd, userName, userNickName) VALUES(?, ?, ?, ?)`;
+            const insertQuery = `INSERT INTO tbl_user(userId, userPwd, userName, userNickName) VALUES(?, ?, ?, ?)`;
             const pwdHash = await bcrypt.hash(pwd, Rounds);
             connection.query(insertQuery, [id, pwdHash, name, nick], (err) => {
                 if (err) {

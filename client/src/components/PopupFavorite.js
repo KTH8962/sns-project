@@ -5,7 +5,7 @@ function PopupAdd(props) {
     const [favorite, setFavorite] = useState([]);
 
     async function fnFavoriteList(){
-        const res = await axios.get(`http://localhost:3100/feed/favorite`, {
+        const res = await axios.get(`http://13.125.58.106:3100/feed/favorite`, {
             params: { feedNo: props.feedNo }
         });
         if(res.data.success) {
@@ -34,7 +34,7 @@ function PopupAdd(props) {
                         return <li key={item.userNickName}>
                             <div className='img-box'>
                                 <img 
-                                    src={item.userProfilePath !== null ? `http://localhost:3100/${item.userProfilePath}` : '/assets/images/profile_default.png'} 
+                                    src={item.userProfilePath !== null ? `http://13.125.58.106:3100/${item.userProfilePath}` : '/assets/images/profile_default.png'} 
                                     alt={item.userNickName ? `${item.userNickName}의 프로필 사진` : '기본 프로필 사진'}
                                 />
                             </div>

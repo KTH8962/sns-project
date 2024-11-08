@@ -17,7 +17,7 @@ function ImgList(props) {
         <div className='img-wrap'>
             <ul className='img-list'>
                 {imgPathList.filter((_, index) => index === slide).map((img, idx) => {
-                    return <li key={idx}><img src={`http://localhost:3100/${img}`} alt={imgName[idx]} /></li>
+                    return <li key={idx}><img src={`http://13.125.58.106:3100/${img}`} alt={imgName[idx]} /></li>
                 })}                    
             </ul>
             {imgPathList.length > 1 && (<div className='arrow-wrap'>

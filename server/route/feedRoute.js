@@ -43,7 +43,7 @@ router.route('/')
                         ) CNT ON F.feedNo = CNT.feedNo
                         LEFT JOIN (
                             SELECT COUNT(feedNo) AS commentCnt, feedNo
-                            FROM TBL_FEED_COMMENT
+                            FROM tbl_feed_comment
                             GROUP BY feedNo
                         ) C ON F.feedNo = C.feedNo
                         GROUP BY F.feedNo, F.feedSearch, F.userId, F.feedContents, U.userNickName, CNT.favoriteCnt, C.commentCnt
@@ -61,7 +61,7 @@ router.route('/insert')
     .post(upload.array('images'), (req, res) => {
         const { contents, search, id } = req.body;
         //console.log(contents, search, token, req.body);
-        const query = `INSERT INTO TBL_FEED(feedNo, userId, feedContents, feedSearch, createAt, updateAt) VALUES(NULL, ?, ?, ?, NOW(), NOW())`;
+        const query = `INSERT INTO tbl_feed(feedNo, userId, feedContents, feedSearch, createAt, updateAt) VALUES(NULL, ?, ?, ?, NOW(), NOW())`;
         connection.query(query, [id, contents, search], async (err, feedResult) => {
             if(err) {
                 console.error('피드 업로드 실패:', err);

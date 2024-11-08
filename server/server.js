@@ -3,7 +3,8 @@ const cors = require('cors');
 const app = express();
 
 app.use(express.json()); 
-app.use(cors({origin : "http://localhost:3000"}));
+//app.use(cors({origin : "http://localhost:3000"}));
+app.use(cors({ origin: 'http://13.125.58.106' }));
 app.use('/user', require('./route/userRoute'));
 app.use('/feed', require('./route/feedRoute'));
 app.use('/mypage', require('./route/mypageRoute'));

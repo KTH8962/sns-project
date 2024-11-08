@@ -117,7 +117,7 @@ router.route('/insert')
         const query2 = `UPDATE tbl_user SET userProfilePath = ? WHERE userId = ?`;
 
         connection.query(query, [id], (err, result) => {
-            const imgPath = result[0]?.userProfilePath;
+            const imgPath = result[0].userProfilePath;
             if(err) {
                 console.error('이미지 조회 실패:', err);
                 return res.json({ success: false, message: '서버 오류가 발생했습니다.' });

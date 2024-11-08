@@ -31,7 +31,7 @@ function Join() {
         } else {
             setBtnState(true);
             //console.log(id, pwd, name, nick, {id, pwd, name, nick});
-            const res = await axios.post(`http://localhost:3100/user/join`, {id, pwd, name, nick});
+            const res = await axios.post(`http://13.125.58.106:3100/user/join`, {id, pwd, name, nick});
             alert(res.data.message);
             setBtnState(false);
             if(res.data.success) {

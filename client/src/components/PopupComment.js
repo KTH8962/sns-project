@@ -12,7 +12,7 @@ function PopupAdd(props) {
     const loginId = jwtDecode(token).userId;
 
     async function fnCommentList(){
-        const res = await axios.get(`http://localhost:3100/feed/comment`, {
+        const res = await axios.get(`http://13.125.58.106:3100/feed/comment`, {
             params: { feedNo: props.feedNo }
         });
         if(res.data.success) {
@@ -29,7 +29,7 @@ function PopupAdd(props) {
     const onSubmit = async () => {
         const comment = commentRef.current.value;
         const feedNo = props.feedNo;
-        const res = await axios.post(`http://localhost:3100/feed/comment`, { comment, feedNo, loginId });
+        const res = await axios.post(`http://13.125.58.106:3100/feed/comment`, { comment, feedNo, loginId });
         if(res.data.success) {
             fnCommentList();
             registerComment(true);
@@ -53,7 +53,7 @@ function PopupAdd(props) {
                             return <li key={index}>
                                 <div className='img-box'>
                                     <img 
-                                        src={item.userProfilePath !== null ? `http://localhost:3100/${item.userProfilePath}` : '/assets/images/profile_default.png'} 
+                                        src={item.userProfilePath !== null ? `http://13.125.58.106:3100/${item.userProfilePath}` : '/assets/images/profile_default.png'} 
                                         alt={item.userNickName ? `${item.userNickName}의 프로필 사진` : '기본 프로필 사진'}
                                     />
                                 </div>
